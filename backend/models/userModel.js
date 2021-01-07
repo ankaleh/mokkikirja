@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const schema = mongoose.Schema({
+const schema = new mongoose.Schema({
     name: { type: String, required: true, minlength: 5 },
     username: { type: String, unique: true, required: true, minlength: 5 },
     password: String,

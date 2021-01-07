@@ -1,16 +1,22 @@
+require('dotenv').config()
 const { ApolloServer, makeExecutableSchema } = require('apollo-server')
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
 const merge  = require('lodash/merge')
-const Post = require('./post')
-const Task = require('./task')
-const User = require('./user')
 
+const post = require('./post')
+const task = require('./task')
+const user = require('./user')
+
+const User = require('./models/userModel')
+
+const secret = process.env.SECRET
 //yhdistetään tietokantan:
 const mongoUrl = process.env.MONGODB_URI
-//const secret = process.env.SECRET
+
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
     .then(() => {
-        console.log('Yhditetty MOngoDB:hen.')
+        console.log('Yhdistetty MOngoDB:hen.')
     })
     .catch((error) => {
         console.log('Virhe yhdistettäessä MongoDB:hen: ', error.message)
@@ -18,9 +24,15 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, us
 
 const Query = `
     type Query {
-        allTasks: [Task!]
-        allPosts: [Post!]
-        findPost(writtenBy: String!): Post
+        ${user.query}
+        ${post.query}
+    }
+`
+const Mutation = `
+    type Mutation {
+        ${user.mutation}
+        ${post.mutation}
+        ${task.mutation}
     }
 `
 const resolvers = {
@@ -32,12 +44,25 @@ const resolvers = {
 }
 
 const schema = makeExecutableSchema({
-    typeDefs: [ Query, Task.typeDef, Post.typeDef, User.typeDef, User.mutation ],
-    resolvers: merge(resolvers, User.resolvers),
+    typeDefs: [ task.typeDef, post.typeDef, user.typeDef, Query, Mutation ],
+    resolvers: merge(resolvers, user.resolvers, post.resolvers, task.resolvers),
 })
 
 const server = new ApolloServer({
-    schema
+    schema,
+    context: async ({ req }) => {
+        // authiin asetetaan pyynnön Authorization-otsakkeen tiedot eli token,
+        //ja jos headerina ei tule validia tokenia, kysely vastaa "null":
+        const auth = req ? req.headers.authorization : null 
+        //console.log(req.headers.authorization)
+        if (auth && auth.toLowerCase().startsWith('bearer')) {
+            const decodedToken = jwt.verify(auth.substring(7), secret)
+            console.log('decodedToken: ', decodedToken)
+            const currentUser = await User.findById(decodedToken.id)
+            return { currentUser } //contextin kentäksi
+        }
+        
+    }
 })
 
 server.listen().then(({ url }) => {
