@@ -7,7 +7,7 @@ const schema = new mongoose.Schema({
         minlength: 5
     },
     writtenBy: {
-        type: mongoose.Schema.Types.ObjectId, //tämä Useriksi ja otetaan kontekstista
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
     guests: { 
