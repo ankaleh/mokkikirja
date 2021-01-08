@@ -1,0 +1,12 @@
+query {
+    allPosts {
+        date
+        text
+        guests
+        writtenBy {
+            name
+        }
+        id
+    
+    }
+}

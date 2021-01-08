@@ -1,6 +1,6 @@
 const { UserInputError } = require('apollo-server')
 const Task = require('./models/taskModel')
-
+const User = require('./models/userModel')
 const typeDef = `
     type Task {
         id: ID!
@@ -9,6 +9,9 @@ const typeDef = `
         doneBy: User
         done: Boolean!
     }
+`
+const query = `
+    allTasks: [Task!]!
 `
 const mutation = `
     addTask(
@@ -20,6 +23,11 @@ const mutation = `
 `
 
 const resolvers = {
+    Query: {
+        allTasks: (root, args) => { //tähän kirjautumisvaatimus!!!
+            return Task.find({})
+        }
+    },
     Mutation: {
         addTask: async (root, args, { currentUser }) => {
             if (!currentUser) {
@@ -68,4 +76,4 @@ const resolvers = {
 
 }
 
-module.exports = { typeDef, mutation, resolvers }
+module.exports = { typeDef, query, mutation, resolvers }

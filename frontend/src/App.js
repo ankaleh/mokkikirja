@@ -1,22 +1,36 @@
 import React from 'react'
-import './App.css'
+import { useQuery, gql } from '@apollo/client'
+import { loader } from 'graphql.macro'
+import { Page, Navigation, Top } from './styles/div'
+import { TextPrimary, LinkText, InfoText } from './styles/textStyles'
+import Posts from './components/Posts'
+import Tasks from './components/Tasks'
+const allPosts = loader('./graphql/queries/allPosts.graphql')
+const allTasks = loader('./graphql/queries/allTasks.graphql')
 
 const App = () => {
+  const postsResult = useQuery(allPosts)
+  const tasksResult = useQuery(allTasks)
+
+  if (postsResult.loading || tasksResult.loading) {
+    return <InfoText>Vieraskirjaa haetaan</InfoText>
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Top>
+      </Top>
+      <Navigation>
+        <LinkText>Kirjaudu ulos</LinkText>
+      </Navigation>
+      <Page>
+        <TextPrimary>
+          <h2>Tervetuloa Mökkikirjaan</h2>
+          <h3>Vieraskirja</h3>
+        </TextPrimary>
+        <Posts posts={postsResult.data.allPosts}/>
+        <Tasks tasks={tasksResult.data.allTasks}/>
+      </Page>
     </div>
   )
 }

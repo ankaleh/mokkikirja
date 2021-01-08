@@ -26,6 +26,7 @@ const Query = `
     type Query {
         ${user.query}
         ${post.query}
+        ${task.query}
     }
 `
 const Mutation = `

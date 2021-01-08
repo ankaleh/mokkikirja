@@ -13,6 +13,7 @@ const typeDef = `
 `
 const query = `
     postCount: Int!
+    allPosts: [Post!]!
 `
 const mutation = `
     addPost(
@@ -43,10 +44,13 @@ const resolvers = {
     Query: {
         postCount: (root, args) => {
             return Post.collection.countDocuments();
+        },
+        allPosts: (root, args) => { //tähän kirjautumisvaatimus!!!
+            return Post.find({})
         }
     },
     Post: {
-        writtenBy: async (root, args) => {
+        writtenBy: async (root) => {
             const user = await User.findById(root.writtenBy)
             return user
         }
