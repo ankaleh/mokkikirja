@@ -45,7 +45,10 @@ const resolvers = {
         postCount: (root, args) => {
             return Post.collection.countDocuments();
         },
-        allPosts: (root, args) => { //tähän kirjautumisvaatimus!!!
+        allPosts: (root, args, { currentUser }) => { //tähän kirjautumisvaatimus!!!
+            /* if (!currentUser) {
+                throw new AuthenticationError('Not authenticated!')
+            } */
             return Post.find({})
         }
     },

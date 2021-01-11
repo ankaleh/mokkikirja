@@ -1,12 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
+import { BrowserRouter } from 'react-router-dom';
 
-import { ApolloProvider, ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client'
+import { ApolloProvider, ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from 'apollo-link-context'
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('mokkikirja-user-token')
+  const token = localStorage.getItem('mokkikirja-token')
   return {
     headers: {
       ...headers,
@@ -25,8 +26,10 @@ const client = new ApolloClient({
 })
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+  <BrowserRouter>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </BrowserRouter>,
   document.getElementById('root'))
 
