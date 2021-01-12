@@ -1,70 +1,53 @@
 import React, { useState, useEffect } from 'react'
-import { useApolloClient, useQuery } from '@apollo/client'
-import { Switch, Route, BrowserRouter as Router, Link } from 'react-router-dom'
+import { useApolloClient, useLazyQuery, useQuery } from '@apollo/client'
+import { Switch, Route, BrowserRouter as Router, Link, useHistory } from 'react-router-dom'
 import { loader } from 'graphql.macro'
-import { Page, Navigation, Top } from './styles/div'
+import { Page, Navigation, Top, AccountInfo } from './styles/div'
+import Notification from './components/Notification'
 import { TextPrimary, LinkText, InfoText } from './styles/textStyles'
 import { Button } from 'semantic-ui-react'
 import useSignIn from './hooks/useSignIn'
 import Posts from './components/Posts'
 import Tasks from './components/Tasks'
 import SignIn from './components/SignIn'
-const ME = loader('./graphql/queries/me.graphql')
+import SignOut from './components/SignOut'
+import User from './components/User'
+import Home from './components/Home'
 
 const App = () => {
+  const [ notification, setNotification ] = useState('')
 
-  const  { data, error, loading } = useQuery(ME);
-  const [user, setUser] = useState(null);
-  const client = useApolloClient()
-  useEffect(() => {
-    if (data) {
-      setUser(data.me);
-    }
-    else if (error) {
-      console.log(error.message);
-    } else {
-    }
-  }, [data]); 
-
-  if (loading) {
-    return (
-      <div><p>loading</p></div>
-    );
+  const showNotification = (message) => {
+    setNotification(message)
+    setTimeout(() => {
+      setNotification(null)
+    }, 3000)
   }
-  
+
   return (
     <Router>
-      <Top>
-        {/* {isSignedIn()
-        ? <Button onClick={() => {
-          client.resetStore()
-          localStorage.clear()
-        }}>Kirjaudu ulos</Button>
-        : null} */}
-      </Top>
-      <Navigation>
-        {user
-        ? <Button onClick={() => {
-          client.resetStore()
-          localStorage.clear()
-        }}>Kirjaudu ulos</Button>
-        : <LinkText to='/kirjaudu'>Kirjaudu sisään</LinkText>}
-        
-        <LinkText to='/tyopaivakirja'>Työpäiväkirja</LinkText>
-        <LinkText to='/vieraskirja'>Vieraskirja</LinkText> 
-        
-      </Navigation>
+      {notification
+        ? <Notification notification={notification}/>
+        : <Top> </Top>}
+      
+      <User showNotification={showNotification}/>
 
       <Page>
         <Switch>
           <Route path='/kirjaudu'>
-            <SignIn/>
+            <SignIn showNotification={showNotification}/>
+          </Route>
+          <Route path='/kirjaudu-ulos'>
+            <SignOut showNotification={showNotification}/>
           </Route>
           <Route path='/tyopaivakirja'>
-            <Tasks />
+            <Tasks notification={notification} showNotification={showNotification}/>
           </Route>
           <Route path='/vieraskirja'>
-            <Posts />
+            <Posts notification={notification} showNotification={showNotification}/>
+          </Route>
+          <Route path='/etusivu'>
+            <Home/>
           </Route>
         </Switch>
       </Page>

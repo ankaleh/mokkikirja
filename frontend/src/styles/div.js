@@ -2,22 +2,35 @@ import styled from 'styled-components'
 
 export const Top = styled.div`
     background: #8d9db6;
-    padding: 10px;
-    min-height: 30px;
+    height: 35px;
     border-bottom: 2px solid white;
 
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
 `//#bc5a45
 
 export const Navigation = styled.div`
     background: #b7d7e8;
-    padding: 20px;
+    padding: 10px;
     border-bottom: 2px solid white;
+    height: 60px;
 
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: center;
+
+`
+export const AccountInfo = styled.div`
+    background: #b7d7e8;
+    padding: 10px;
+    border-bottom: 2px solid white;
+    height: 60px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     align-items: center;
 
 `
@@ -44,9 +57,31 @@ export const StyledBlog = styled.div`
 `
 export const StyledTask = styled.div`
     padding: 10px;
-    border: 2px solid #b7d7e8;
+    border: 2px solid  #618685;
     background: white;
     width: 250px;
     height: 100px;
     border-radius: 15px;
+`
+export const ErrorMessage = styled.div`
+    color: red;
+    background: lightgrey;
+    height: 35px;
+    border-bottom: 2px solid white;
+    padding: 10px;
+
+    display: flex;
+    justify-content: center;
+    
+`
+export const NotificationMessage = styled.div`
+    color: green;
+    background: lightgrey;
+    height: 35px;
+    border-bottom: 2px solid white;
+    padding: 10px;
+
+    display: flex;
+    justify-content: center;
+    
 `

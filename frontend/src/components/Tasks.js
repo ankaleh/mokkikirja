@@ -1,22 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import Task from './Task'
+import Error from './Notification'
 import { TextPrimary, InfoText } from '../styles/textStyles'
 import { loader } from 'graphql.macro'
 const ALL_TASKS = loader('../graphql/queries/allTasks.graphql')
 
-const Tasks = () => {
-    const tasksResult = useQuery(ALL_TASKS)
+const Tasks = (props) => {
+    const allTasks/* { data, error, loading } */ = useQuery(ALL_TASKS)
+    const [ tasks, setTasks] = useState(null)
 
-    if (tasksResult.loading) {
-        return <InfoText>Työpäiväkirjaa haetaan</InfoText>
+    useEffect(() => {
+        if (allTasks.data) {
+            setTasks(allTasks.data.allTasks)
+        }
+        if (allTasks.error) {
+            console.log('Virheviesti palvelimelta: ', allTasks.error.message);
+            props.showNotification(`Tapahtui virhe: ${allTasks.error.message}`)
+        } 
+    }, [allTasks]); 
+      
+    if (props.notification) {
+        return null
     }
 
+    if (allTasks.loading) {
+        <InfoText>Työpäiväkirjaa haetaan</InfoText>
+    }
+
+    if (!tasks) {
+        return <InfoText>Työpäiväkirjan hakeminen ei onnistunut. Oletko kirjautunut sisään?</InfoText>
+    }
+    
     return (
-        <div>
+        <div> 
             <TextPrimary><h1>Työpäiväkirja</h1></TextPrimary>
-            {/* {console.log('Tasks: ', tasks)} */}
-            {tasksResult.data.allTasks.map(t => <Task key={t.id} task={t}/>)}
+            {tasks.map(t => <Task key={t.id} task={t}/>)}
         </div>
     )
 

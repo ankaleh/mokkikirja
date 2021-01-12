@@ -26,7 +26,7 @@ const resolvers = {
     Mutation: {
         addPost: async (root, args, { currentUser }) => {
             if (!currentUser) {
-                throw new AuthenticationError('Not authenticated!')
+                throw new AuthenticationError('Not authenticated backend.postissa!')
             }
             const post = new Post({ ...args, writtenBy: currentUser } )
             try {
@@ -46,9 +46,9 @@ const resolvers = {
             return Post.collection.countDocuments();
         },
         allPosts: (root, args, { currentUser }) => { //tähän kirjautumisvaatimus!!!
-            /* if (!currentUser) {
-                throw new AuthenticationError('Not authenticated!')
-            } */
+            if (!currentUser) {
+                throw new AuthenticationError('Not authenticated backend.postissa!')
+            }
             return Post.find({})
         }
     },

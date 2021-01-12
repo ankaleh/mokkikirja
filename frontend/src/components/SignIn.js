@@ -31,9 +31,9 @@ const SignInForm = ({ onSubmit }) => {
         
 };
 
-const SignIn = () => {
+const SignIn = (props) => {
 
-    const [signIn] = useSignIn();
+    const [signIn, result ] = useSignIn();
     const history = useHistory();
 
     const onSubmit = async (values) => {
@@ -44,9 +44,12 @@ const SignIn = () => {
         } catch (e) {
             console.log(e);
         }
-        history.push('/vieraskirja');
+        history.push('/etusivu');
     }
-
+    if (result.loading) {
+        return <div>Kirjaudutaan</div>
+    }
+    
     return (
         <Formik initialValues={{username: '', password: ''}} 
             onSubmit={onSubmit} /* validationSchema={validationSchema} */>

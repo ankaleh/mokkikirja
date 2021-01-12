@@ -1,4 +1,4 @@
-const { UserInputError } = require('apollo-server')
+const { UserInputError, AuthenticationError } = require('apollo-server')
 const Task = require('./models/taskModel')
 const User = require('./models/userModel')
 const typeDef = `
@@ -24,14 +24,17 @@ const mutation = `
 
 const resolvers = {
     Query: {
-        allTasks: (root, args) => { //tähän kirjautumisvaatimus!!!
+        allTasks: (root, args, { currentUser }) => { 
+            if (!currentUser) {
+                throw new AuthenticationError('Not authenticated backend.taskissa!')
+            }
             return Task.find({})
         }
     },
     Mutation: {
         addTask: async (root, args, { currentUser }) => {
             if (!currentUser) {
-                throw new AuthenticationError('Not authenticated!')
+                throw new AuthenticationError('Not authenticated backend.taskissa!!')
             }
             const task = new Task({...args, done: false, addedBy: currentUser })
             try {
@@ -45,7 +48,7 @@ const resolvers = {
         },
         markAsDone: async (root, args, { currentUser }) => {
             if (!currentUser) {
-                throw new AuthenticationError('Not authenticated!')
+                throw new AuthenticationError('Not authenticated backend.taskissa!!')
             }
             const task = await Task.findOne({ description: args.description })//tähän vaihdettava id hakuavaimeksi
             task.done = true
