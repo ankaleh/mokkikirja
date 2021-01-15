@@ -1,30 +1,27 @@
 import React from 'react'
 import { Formik, useField } from 'formik'
+import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn'
 import { useHistory } from 'react-router-dom'
 
-import 'semantic-ui-css/semantic.min.css'
-import { Button, Input } from 'semantic-ui-react'
+import { Button } from '../styles/button'
+import { Input } from '../styles/input'
+import { Column, Page } from '../styles/div'
+import { BlackText, InfoText } from '../styles/textStyles'
+
+import FormikInput from './FormikInput'
 
 const SignInForm = ({ onSubmit }) => {
-    const [field1, meta1, helpers1] = useField('username');
-    const [field2, meta2, helpers2] = useField('password');
-    //const showError = meta1.touched && meta1.error; 
 
   return (
     <div>
         <form onSubmit={onSubmit}>
-        <Input
-            focus placeholder='Käyttäjätunnus'
-            value={field1.value}
-            onChange={({target}) => helpers1.setValue(target.value)}
-            /> 
-        <Input
-            focus placeholder='Salasana'
-            value={field2.value}
-            onChange={({target}) => helpers2.setValue(target.value)}
-            /> 
-        <Button type='submit'>Kirjaudu sisään</Button>
+            <Column>
+                <BlackText>Kirjoita käyttäjätunnuksesi ja salasanasi alla oleviin kenttiin.</BlackText>
+                <FormikInput name='username' border='2px solid lightgrey' placeholder='Käyttäjätunnus'/>
+                <FormikInput name='password' border='2px solid lightgrey' placeholder='Salasana'/>
+                <Button type='submit' background='lightgrey'>Kirjaudu sisään</Button>
+            </Column>
         </form>
     </div>
   );
@@ -33,31 +30,41 @@ const SignInForm = ({ onSubmit }) => {
 
 const SignIn = (props) => {
 
-    const [signIn, result ] = useSignIn();
+    const [signIn, result ] = useSignIn(props.showNotification);
     const history = useHistory();
 
     const onSubmit = async (values) => {
         const { username, password } = values;
-        console.log('Tekstikenttiin kirjoitettiin: ', username, password); //values on olio, jolla kentät username ja password
+        //console.log('Tekstikenttiin kirjoitettiin: ', username, password); //values on olio, jolla kentät username ja password
         try {
             await signIn(username, password); // kirjaudutaan
         } catch (e) {
             console.log(e);
         }
-        history.push('/etusivu');
     }
+
+    const validationSchema = yup.object().shape({
+        password: yup
+            .string()    
+            .required('Salasana vaaditaan.'),
+        username: yup
+            .string()
+            .required('Käyttäjänimi vaaditaan.')
+    })
+    
     if (result.loading) {
         return <div>Kirjaudutaan</div>
     }
-    
+
     return (
+        <Page>
         <Formik initialValues={{username: '', password: ''}} 
-            onSubmit={onSubmit} /* validationSchema={validationSchema} */>
+            onSubmit={onSubmit} validationSchema={validationSchema}>
 
                 {({handleSubmit}) => <SignInForm onSubmit={handleSubmit} />} 
             
         </Formik>
-       
+        </Page>
     )
 }
 export default SignIn

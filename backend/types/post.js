@@ -1,8 +1,8 @@
 const { UserInputError, AuthenticationError } = require('apollo-server')
-const Post = require('./models/postModel')
-const User = require('./models/userModel')
+const Post = require('../models/postModel')
+const User = require('../models/userModel')
 
-const typeDef = `
+const typeDefs = `
     type Post {
         id: ID!,
         writtenBy: User!,
@@ -10,17 +10,18 @@ const typeDef = `
         text: String!,
         guests: [String]!
     }
-`
-const query = `
-    postCount: Int!
-    allPosts: [Post!]!
-`
-const mutation = `
-    addPost(
-        date: String!,
-        text: String!,
-        guests: [String]!
-    ): Post
+    extend type Query {
+        postCount: Int!
+        allPosts: [Post!]!
+    }
+
+    extend type Mutation {
+        addPost(
+            date: String!,
+            text: String!,
+            guests: [String]!
+        ): Post
+    }
 `
 const resolvers = {
     Mutation: {
@@ -60,4 +61,4 @@ const resolvers = {
     }
 }
 
-module.exports = { typeDef, query, mutation, resolvers }
+module.exports = { typeDefs, resolvers }

@@ -1,6 +1,9 @@
 import React from 'react'
 import { useApolloClient } from '@apollo/client'
 import { useHistory } from 'react-router-dom'
+import { Button } from '../styles/button'
+import { Info, Page, Row } from '../styles/div'
+import { TextPrimary, InfoText } from '../styles/textStyles'
 
 const SignOut = (props) => {
     const client = useApolloClient()
@@ -14,13 +17,15 @@ const SignOut = (props) => {
     
 
     return (
-      <div>
-        <p>Haluatko varmasti kirjautua ulos? </p>
-        
-            <button type='submit' onClick={handleClick}>Kyllä</button>
-            <button type='submit' onClick={()=> history.goBack()}>En</button>
-        
-      </div>
+      <Page>
+        <Info>
+          <InfoText>Haluatko varmasti kirjautua ulos?</InfoText>
+            <Row>
+              <Button type='submit' onClick={handleClick} background='#bc5a45'>Kyllä</Button>
+              <Button type='submit' onClick={()=> history.goBack()} background='#bc5a45'>En</Button>
+            </Row>
+        </Info>
+      </Page>
     )
 }
 

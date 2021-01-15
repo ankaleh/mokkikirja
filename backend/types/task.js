@@ -1,7 +1,8 @@
 const { UserInputError, AuthenticationError } = require('apollo-server')
-const Task = require('./models/taskModel')
-const User = require('./models/userModel')
-const typeDef = `
+const Task = require('../models/taskModel')
+const User = require('../models/userModel')
+
+const typeDefs = `
     type Task {
         id: ID!
         description: String!
@@ -9,19 +10,18 @@ const typeDef = `
         doneBy: User
         done: Boolean!
     }
+    extend type Query {
+        allTasks: [Task!]!
+    }
+    extend type Mutation {
+        addTask(
+            description: String!
+        ): Task
+        markAsDone(
+            description: String!
+        ): Task
+    }
 `
-const query = `
-    allTasks: [Task!]!
-`
-const mutation = `
-    addTask(
-        description: String!
-    ): Task
-    markAsDone(
-        description: String!
-    ): Task
-`
-
 const resolvers = {
     Query: {
         allTasks: (root, args, { currentUser }) => { 
@@ -79,4 +79,4 @@ const resolvers = {
 
 }
 
-module.exports = { typeDef, query, mutation, resolvers }
+module.exports = { typeDefs, resolvers }

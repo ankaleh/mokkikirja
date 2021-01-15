@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import Task from './Task'
 import Error from './Notification'
+import { Page } from '../styles/div'
 import { TextPrimary, InfoText } from '../styles/textStyles'
 import { loader } from 'graphql.macro'
 const ALL_TASKS = loader('../graphql/queries/allTasks.graphql')
@@ -15,7 +16,6 @@ const Tasks = (props) => {
             setTasks(allTasks.data.allTasks)
         }
         if (allTasks.error) {
-            console.log('Virheviesti palvelimelta: ', allTasks.error.message);
             props.showNotification(`Tapahtui virhe: ${allTasks.error.message}`)
         } 
     }, [allTasks]); 
@@ -33,10 +33,10 @@ const Tasks = (props) => {
     }
     
     return (
-        <div> 
+        <Page> 
             <TextPrimary><h1>Työpäiväkirja</h1></TextPrimary>
             {tasks.map(t => <Task key={t.id} task={t}/>)}
-        </div>
+        </Page>
     )
 
 }

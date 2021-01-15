@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Top = styled.div`
+export const Margin = styled.div`
     background: #8d9db6;
     height: 35px;
     border-bottom: 2px solid white;
@@ -36,7 +36,7 @@ export const AccountInfo = styled.div`
 `
 export const Page = styled.div`
     background: #F7F7F7;
-    padding: 10px;
+    padding: 50px;
     text-align: center;
 
     display: flex;
@@ -83,5 +83,30 @@ export const NotificationMessage = styled.div`
 
     display: flex;
     justify-content: center;
+`
+export const Info = styled.div`
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: 2px solid #bc5a45;
+    background: white;
+    width: 250px;
+    height: 100px;
+    border-radius: 5px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
+export const Row = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`
+export const Column = styled.div`
+    display: flex;
+    flex-direction: column;
     
 `
+

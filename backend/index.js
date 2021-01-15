@@ -4,9 +4,9 @@ const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const merge  = require('lodash/merge')
 
-const post = require('./post')
-const task = require('./task')
-const user = require('./user')
+const post = require('./types/post')
+const task = require('./types/task')
+const user = require('./types/user')
 
 const User = require('./models/userModel')
 
@@ -24,16 +24,12 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, us
 
 const Query = `
     type Query {
-        ${user.query}
-        ${post.query}
-        ${task.query}
+        _empty: String
     }
 `
 const Mutation = `
     type Mutation {
-        ${user.mutation}
-        ${post.mutation}
-        ${task.mutation}
+        _empty: String
     }
 `
 const resolvers = {
@@ -45,7 +41,7 @@ const resolvers = {
 }
 
 const schema = makeExecutableSchema({
-    typeDefs: [ task.typeDef, post.typeDef, user.typeDef, Query, Mutation ],
+    typeDefs: [ task.typeDefs, post.typeDefs, user.typeDefs, Query, Mutation ],
     resolvers: merge(resolvers, user.resolvers, post.resolvers, task.resolvers),
 })
 

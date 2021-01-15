@@ -1,10 +1,12 @@
-const { UserInputError } = require('apollo-server')
-const User = require('./models/userModel')
+const { UserInputError, buildSchemaFromTypeDefinitions } = require('apollo-server')
+const User = require('../models/userModel')
+
+const bqrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const secret = process.env.SECRET
 
-const typeDef = `
+const typeDefs = `
     type User {
         id: ID!
         name: String!
@@ -16,26 +18,28 @@ const typeDef = `
     type Token {
         value: String!
     }
-`
-const query = `
-    me: User
-`
-const mutation = `
-    createUser(
-        name: String!
-        username: String!
-        password: String!
-    ): User
-    login(
-        username: String!
-        password: String!
-    ): Token
+    extend type Query {
+        me: User
+    }
+    extend type Mutation {
+        createUser(
+            name: String!
+            username: String!
+            password: String!
+        ): User
+        login(
+            username: String!
+            password: String!
+        ): Token
+    }
 `
 
 const resolvers = {
     Mutation: {
         createUser: async (root, args) => {
-            const newUser = new User({ name: args.name, username: args.username, password: args.password })
+            const salt = 10
+            const passwordHash = await bqrypt.hash(args.password, salt)
+            const newUser = new User({ name: args.name, username: args.username, password: passwordHash })
             try {
               await newUser.save()
             } catch (error) {
@@ -47,12 +51,16 @@ const resolvers = {
         },
         login: async (root, args) => {
             const userLoggingIn = await User.findOne({ username: args.username })
-            if ( !userLoggingIn && args.password !== 'akuankka' ) {
+            const passwordCorrect = userLoggingIn === null
+                ? false
+                : await bqrypt.compare(args.password, userLoggingIn.password)
+            
+            if ( !(userLoggingIn && passwordCorrect) ) {
                 throw new UserInputError('Wrong credentials!')
             }
             console.log('login: ', userLoggingIn.username, userLoggingIn._id)
             const userForToken = { username: userLoggingIn.username, id: userLoggingIn._id }
-            console.log(`token: "bearer ${jwt.sign(userForToken, secret)}"`)
+            //console.log(`token: "bearer ${jwt.sign(userForToken, secret)}"`)
             return { value: jwt.sign(userForToken, secret) } //palautetaan skeemassa määritetyn Token-tyypin kenttä value
         }
     },
@@ -63,4 +71,4 @@ const resolvers = {
     }
 }
 
-module.exports = { typeDef, query, mutation, resolvers }
+module.exports = { typeDefs, resolvers }

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { useApolloClient, useLazyQuery, useQuery } from '@apollo/client'
 import { Switch, Route, BrowserRouter as Router, Link, useHistory } from 'react-router-dom'
 import { loader } from 'graphql.macro'
-import { Page, Navigation, Top, AccountInfo } from './styles/div'
+import { Page, Navigation, Margin, AccountInfo } from './styles/div'
 import Notification from './components/Notification'
 import { TextPrimary, LinkText, InfoText } from './styles/textStyles'
 import { Button } from 'semantic-ui-react'
 import useSignIn from './hooks/useSignIn'
 import Posts from './components/Posts'
 import Tasks from './components/Tasks'
+import SignUp from './components/SignUp'
 import SignIn from './components/SignIn'
 import SignOut from './components/SignOut'
 import User from './components/User'
@@ -28,12 +29,14 @@ const App = () => {
     <Router>
       {notification
         ? <Notification notification={notification}/>
-        : <Top> </Top>}
+        : <Margin> </Margin>}
       
       <User showNotification={showNotification}/>
 
-      <Page>
         <Switch>
+          <Route path='/rekisteroidy'>
+            <SignUp showNotification={showNotification}/>
+          </Route>
           <Route path='/kirjaudu'>
             <SignIn showNotification={showNotification}/>
           </Route>
@@ -49,8 +52,17 @@ const App = () => {
           <Route path='/etusivu'>
             <Home/>
           </Route>
+            <Page>
+              
+            </Page>
         </Switch>
-      </Page>
+      
+      <Navigation>
+
+      </Navigation>
+      <Margin>
+
+      </Margin>
     </Router>
   )
 }
