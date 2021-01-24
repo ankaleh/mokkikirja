@@ -1,12 +1,16 @@
-const { UserInputError, buildSchemaFromTypeDefinitions } = require('apollo-server')
+const { UserInputError, gql } = require('apollo-server')
 const User = require('../models/userModel')
 
 const bqrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
-const secret = process.env.SECRET
+const secret = process.env.NODE_ENV === 'test'
+  ? 'kukkanen'
+  : process.env.SECRET
 
-const typeDefs = `
+
+const typeDefs = gql`
     type User {
         id: ID!
         name: String!
@@ -35,40 +39,40 @@ const typeDefs = `
 `
 
 const resolvers = {
-    Mutation: {
-        createUser: async (root, args) => {
-            const salt = 10
-            const passwordHash = await bqrypt.hash(args.password, salt)
-            const newUser = new User({ name: args.name, username: args.username, password: passwordHash })
-            try {
-              await newUser.save()
-            } catch (error) {
-            throw new UserInputError(error.message, {
-                invalidArgs: args,
-            })
-          }
-          return newUser
-        },
-        login: async (root, args) => {
-            const userLoggingIn = await User.findOne({ username: args.username })
-            const passwordCorrect = userLoggingIn === null
-                ? false
-                : await bqrypt.compare(args.password, userLoggingIn.password)
-            
-            if ( !(userLoggingIn && passwordCorrect) ) {
-                throw new UserInputError('Wrong credentials!')
-            }
-            console.log('login: ', userLoggingIn.username, userLoggingIn._id)
-            const userForToken = { username: userLoggingIn.username, id: userLoggingIn._id }
-            //console.log(`token: "bearer ${jwt.sign(userForToken, secret)}"`)
-            return { value: jwt.sign(userForToken, secret) } //palautetaan skeemassa määritetyn Token-tyypin kenttä value
-        }
+  Mutation: {
+    createUser: async (root, args) => {
+      const salt = 10
+      const passwordHash = await bqrypt.hash(args.password, salt)
+      const newUser = new User({ name: args.name, username: args.username, password: passwordHash })
+      try {
+        await newUser.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
+      return newUser
     },
-    Query: {
-        me: (root, args, { currentUser }) => {
-            return currentUser
-        }
+    login: async (root, args) => {
+      const userLoggingIn = await User.findOne({ username: args.username })
+      const passwordCorrect = userLoggingIn === null
+        ? false
+        : await bqrypt.compare(args.password, userLoggingIn.password)
+
+      if ( !(userLoggingIn && passwordCorrect) ) {
+        throw new UserInputError('Wrong credentials!')
+      }
+      console.log('login: ', userLoggingIn.username, userLoggingIn._id)
+      const userForToken = { username: userLoggingIn.username, id: userLoggingIn._id }
+      console.log(`token: "bearer ${jwt.sign(userForToken, secret)}"`)
+      return { value: jwt.sign(userForToken, secret) } //palautetaan skeemassa määritetyn Token-tyypin kenttä value
     }
+  },
+  Query: {
+    me: (root, args, { currentUser }) => {
+      return currentUser
+    }
+  }
 }
 
 module.exports = { typeDefs, resolvers }
