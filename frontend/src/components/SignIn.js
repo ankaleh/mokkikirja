@@ -18,9 +18,9 @@ const SignInForm = ({ onSubmit }) => {
         <form onSubmit={onSubmit}>
             <Column>
                 <BlackText>Kirjoita käyttäjätunnuksesi ja salasanasi alla oleviin kenttiin.</BlackText>
-                <FormikInput name='username' border='2px solid lightgrey' placeholder='Käyttäjätunnus'/>
-                <FormikInput name='password' border='2px solid lightgrey' placeholder='Salasana'/>
-                <Button type='submit' background='lightgrey'>Kirjaudu sisään</Button>
+                <FormikInput type='input' name='username' border='2px solid lightgrey' placeholder='Käyttäjätunnus' height='40px' width='400px'/>
+                <FormikInput type='input' name='password' border='2px solid lightgrey' placeholder='Salasana' height='40px' width='400px'/>
+                <Button type='submit' background='lightgrey' height='40px' width='400px'>Kirjaudu sisään</Button>
             </Column>
         </form>
     </div>
@@ -57,7 +57,7 @@ const SignIn = (props) => {
     }
 
     return (
-        <Page>
+        <Page flexDirection='row' justifyContent='center' alignItems='center'>
         <Formik initialValues={{username: '', password: ''}} 
             onSubmit={onSubmit} validationSchema={validationSchema}>
 

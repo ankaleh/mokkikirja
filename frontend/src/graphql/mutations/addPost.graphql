@@ -1,0 +1,12 @@
+mutation ($date: String!, $text: String!, $guests: [String]!){
+  addPost(
+    date: $date,
+    text: $text,
+    guests: $guests
+  ) {
+    date
+    text
+    guests
+    writtenBy
+  }
+}

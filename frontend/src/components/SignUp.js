@@ -22,11 +22,11 @@ const SignUpForm = ({onSubmit}) => {
         <form onSubmit={onSubmit}>
             <Column>
                 <BlackText>Rekisteröidy antamalla nimesi ja valitsemalla käyttäjätunnus ja salasana.</BlackText>
-                <FormikInput name='name' placeholder='Nimi' border='2px solid lightgrey'/>
-                <FormikInput name='username' placeholder='Käyttäjätunnus' border='2px solid lightgrey'/>
-                <FormikInput name='password' placeholder='Salasana' border='2px solid lightgrey'/>
-                <FormikInput name='passwordConf' placeholder='Salasana uudestaan' border='2px solid lightgrey'/>
-                <Button type='submit' background='lightgrey'>Rekisteröidy</Button>
+                <FormikInput type='input' name='name' placeholder='Nimi' border='2px solid lightgrey' height='40px' width='400px'/>
+                <FormikInput type='input' name='username' placeholder='Käyttäjätunnus' border='2px solid lightgrey' height='40px' width='400px'/>
+                <FormikInput type='input' name='password' placeholder='Salasana' border='2px solid lightgrey' height='40px' width='400px'/>
+                <FormikInput type='input' name='passwordConf' placeholder='Salasana uudestaan' border='2px solid lightgrey' height='40px' width='400px'/>
+                <Button type='submit' background='lightgrey' height='40px' width='400px'>Rekisteröidy</Button>
             </Column>
         </form>
         </div>
@@ -39,7 +39,7 @@ const SignUp = (props) => {
     const history = useHistory()
     const [createUser /* , result */ ] = useMutation(CREATE_USER, {
         onError: (error) => {
-            showNotification(`Tapahtui virhe: ${error.graphQLErrors[0].message}`)
+            props.showNotification(`Tapahtui virhe: ${error.graphQLErrors[0].message}`)
         }
     })
 
@@ -82,7 +82,7 @@ const SignUp = (props) => {
     //Formikin sisällä (lapsena) on funktio, joka saa parametrikseen Formikin funktion, joka puolestaan annetaan 
     //kirjautumislomakkeelle propsina.
     return (
-        <Page>
+        <Page flexDirection='row' justifyContent='center' alignItems='center'>
             <Formik initialValues={{name: '', username: '', password: '', passwordConf: ''}} 
                 onSubmit={onSubmit} validationSchema={validationSchema}>
 

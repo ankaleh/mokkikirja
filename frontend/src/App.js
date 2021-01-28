@@ -13,6 +13,7 @@ import SignUp from './components/SignUp'
 import SignIn from './components/SignIn'
 import SignOut from './components/SignOut'
 import User from './components/User'
+import Post from './components/Post'
 import Home from './components/Home'
 
 const App = () => {
@@ -44,14 +45,17 @@ const App = () => {
             <SignOut showNotification={showNotification}/>
           </Route>
           <Route path='/tyopaivakirja'>
-            <Tasks notification={notification} showNotification={showNotification}/>
+            <Tasks showNotification={showNotification}/>
+          </Route>
+          <Route path='/vieraskirja/:id'>
+            <Posts showNotification={showNotification}/>
           </Route>
           <Route path='/vieraskirja'>
-            <Posts notification={notification} showNotification={showNotification}/>
+            <Posts showNotification={showNotification}/>
           </Route>
-          <Route path='/etusivu'>
-            <Home/>
-          </Route>
+          {/* <Route path='/etusivu'>
+            <Home showNotification={showNotification}/>
+          </Route> */}
             <Page>
               
             </Page>

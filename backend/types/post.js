@@ -25,7 +25,7 @@ const typeDefs = gql`
 `
 const resolvers = {
   Mutation: {
-    addPost: async (args, { currentUser }) => {
+    addPost: async (root, args, { currentUser }) => {
       if (!currentUser) {
         throw new AuthenticationError('Not authenticated backend.postissa!')
       }
@@ -54,7 +54,7 @@ const resolvers = {
     }
   },
   Post: {
-    writtenBy: async (root) => {
+    writtenBy: async (root, args, { currentUser }) => {
       const user = await User.findById(root.writtenBy)
       return user
     }

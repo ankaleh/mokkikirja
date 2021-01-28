@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useApolloClient, useLazyQuery, useQuery } from '@apollo/client'
 import { Switch, Route, BrowserRouter as Router, Link } from 'react-router-dom'
 import { loader } from 'graphql.macro'
-import { Page, Navigation, Top, AccountInfo, Column } from '../styles/div'
+import { Page, Navigation, Top, AccountInfo, Column, Row } from '../styles/div'
 import { TextPrimary, LinkText, WhiteText } from '../styles/textStyles'
+import Home from './Home'
 
 
 const ME = loader('../graphql/queries/me.graphql')
@@ -33,10 +34,13 @@ const User = (props) => {
                 {user
                 ?   <div>
                         <AccountInfo>
+                            <Row>
+                            <LinkText to={`/etusivu`}>Oma sivuni</LinkText>
                             <Column>
-                            <WhiteText>{user.name}</WhiteText>
-                            <LinkText to='/kirjaudu-ulos'>Kirjaudu ulos</LinkText>
+                                <WhiteText>{user.name}</WhiteText>
+                                <LinkText to='/kirjaudu-ulos'>Kirjaudu ulos</LinkText>
                             </Column>
+                            </Row>
                         </AccountInfo>
                         <Navigation>
                             <LinkText to='/tyopaivakirja'>Työpäiväkirja</LinkText>

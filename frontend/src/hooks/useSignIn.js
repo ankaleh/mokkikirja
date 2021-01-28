@@ -21,7 +21,7 @@ const useSignIn = (showNotification) => {
         client.resetStore()
         if (result.data) {
             showNotification('Kirjautuminen onnistui!')
-            history.push('/etusivu') 
+            history.push('/vieraskirja') 
         }
         return result
     }

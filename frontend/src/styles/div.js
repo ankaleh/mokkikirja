@@ -34,17 +34,20 @@ export const AccountInfo = styled.div`
     align-items: center;
 
 `
-export const Page = styled.div`
+export const Page = styled.div.attrs(props => ({
+    flexDirection: props.flexDirection,
+    justifyContent: props.justifyContent,
+    alignItems: props.alignItmes
+}))`
     background: #F7F7F7;
     padding: 50px;
-    text-align: center;
-
+    
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-direction:  ${props => props.flexDirection};
+    justify-content: ${props => props.justifyContent};
+    align-items: ${props => props.alignItems};
 `
-export const StyledBlog = styled.div`
+export const StyledPost = styled.div`
     padding: 10px;
     border: 2px solid #bc5a45;
     background: white;
@@ -54,6 +57,10 @@ export const StyledBlog = styled.div`
 
     margin: 10px;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 `
 export const StyledTask = styled.div`
     padding: 10px;
@@ -61,6 +68,13 @@ export const StyledTask = styled.div`
     background: white;
     width: 250px;
     height: 100px;
+    border-radius: 15px;
+`
+export const StyledTextContainer = styled.div`
+    padding: 40px;
+    margin: 10px;
+    border: 2px solid  #bc5a45;
+    background: white;
     border-radius: 15px;
 `
 export const ErrorMessage = styled.div`
@@ -85,28 +99,30 @@ export const NotificationMessage = styled.div`
     justify-content: center;
 `
 export const Info = styled.div`
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px;
     border: 2px solid #bc5a45;
     background: white;
-    width: 250px;
+    width: 300px;
     height: 100px;
     border-radius: 5px;
     
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    
+    text-align: center;
+`
+export const Space = styled.div`
+    height: 50px;
 `
 export const Row = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    
 `
 export const Column = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
     
 `
 

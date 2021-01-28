@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client'
 import Task from './Task'
 import Error from './Notification'
 import { Page } from '../styles/div'
-import { TextPrimary, InfoText } from '../styles/textStyles'
+import { TextPrimary, InfoText, BlackText } from '../styles/textStyles'
 import { loader } from 'graphql.macro'
 const ALL_TASKS = loader('../graphql/queries/allTasks.graphql')
 
@@ -34,7 +34,7 @@ const Tasks = (props) => {
     
     return (
         <Page> 
-            <TextPrimary><h1>Työpäiväkirja</h1></TextPrimary>
+            <BlackText>Työpäiväkirja</BlackText>
             {tasks.map(t => <Task key={t.id} task={t}/>)}
         </Page>
     )

@@ -1,29 +1,23 @@
 import React, { useEffect, useState } from 'react'
+import { Link, Route, Switch, BrowserRouter as Router, useParams } from 'react-router-dom'
 import { loader } from 'graphql.macro'
 import { useQuery } from '@apollo/client'
 import Post from './Post'
-import Error from './Notification'
 import { Page, Column } from '../styles/div'
 import { TextPrimary, InfoText } from '../styles/textStyles'
 import { Button } from '../styles/button'
 import { Text } from '../styles/input'
-const ALL_POSTS = loader('../graphql/queries/allPosts.graphql')
+import AddPost from './AddPost'
+import { StyledPost, Row } from '../styles/div'
+import 'semantic-ui-css/semantic.min.css'
+import { Icon } from 'semantic-ui-react'
 
+const ALL_POSTS = loader('../graphql/queries/allPosts.graphql')
 
 const Posts = (props) => {
     const allPosts = useQuery(ALL_POSTS)
-
     const [ posts, setPosts ] = useState(null)
-    const [ post, setPost ] = useState('')
-
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        
-    }
-
-    const handleChange = (event) => {
-        setPost(event.target.value)
-    }
+    const id = useParams().id
 
     useEffect(() => {
         if (allPosts.data) {
@@ -47,19 +41,32 @@ const Posts = (props) => {
         return <InfoText>Vieraskirjan hakeminen ei onnistunut. Oletko kirjautunut sisään?</InfoText>
     }
 
+    if (id) {
+        const post = posts.find(p => p.id === id)
+        return (
+            <Post post={post}/>
+        )
+    }
+
     return (
-        <Page>
-            <TextPrimary><h1>Vieraskirja</h1></TextPrimary>
-            {posts.map(p => <Post key={p.id} post={p}/>)}
+        <Page flexDirection='row' justifyContent='space-around'>
+           
+            <Column>{posts.map(p =>  
+                <Link key={p.id} to={`/vieraskirja/${p.id}`}>
+                    <StyledPost>
+                        <p><TextPrimary>{p.date}</TextPrimary></p>
+                        <Icon name='users' color='grey'/>
+                        <Row>
+                            <TextPrimary>
+                                {p.guests.reduce((prev, curr) => `${prev}, ${curr}`)}
+                            </TextPrimary>
+                        </Row>
+                    </StyledPost>
+                </Link>
+                )}
+            </Column>
             
-            <form onSubmit={handleSubmit}>
-                <Column>
-                <Text type='text' value={post} onChange={handleChange} border='2px solid #bc5a45'/>
-                <Button background='lightgrey'>Tallenna</Button>
-                </Column>   
-            </form>
-        
-       
+            <AddPost showNotification={props.showNotification}/>
 
         </Page>
     )

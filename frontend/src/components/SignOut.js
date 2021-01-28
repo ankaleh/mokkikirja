@@ -17,7 +17,7 @@ const SignOut = (props) => {
     
 
     return (
-      <Page>
+      <Page flexDirection='row' justifyContent='center' alignItems='center'>
         <Info>
           <InfoText>Haluatko varmasti kirjautua ulos?</InfoText>
             <Row>

@@ -5,6 +5,11 @@ import styled from 'styled-components'
 export const TextPrimary = styled.span`
     font: 20px Verdana, sans-serif;
 `
+export const TextSecondary = styled.span`
+    font: 15px Verdana, sans-serif;
+    color: black;
+    padding: 10px;
+`
 export const WhiteText = styled.span`
     font: 15px Verdana, sans-serif;
     color: #FFFFFF;
@@ -13,6 +18,8 @@ export const WhiteText = styled.span`
 export const BlackText = styled.span`
     font: 15px Verdana, sans-serif;
     color: black;
+    font-weight: bold;
+    padding-right: 10px;
 `
 export const LinkText = styled(Link)`
     font: 15px Verdana, sans-serif;
@@ -20,11 +27,13 @@ export const LinkText = styled(Link)`
     font-weight: bold;
     padding-right: 10px;
 `
-
 export const InfoText = styled.span`
     font: 15px Verdana, sans-serif;
     color: #bc5a45
 `
+
+
+
 
 
 
