@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import Task from './Task'
 import Error from './Notification'
-import { Page } from '../styles/div'
-import { TextPrimary, InfoText, BlackText } from '../styles/textStyles'
+import { InfoText } from '../styles/textStyles'
 import { loader } from 'graphql.macro'
+import { Column, Page, StyledTask, Row } from '../styles/div'
+import AddTask from './AddTask'
+import 'semantic-ui-css/semantic.min.css'
+
 const ALL_TASKS = loader('../graphql/queries/allTasks.graphql')
 
 const Tasks = (props) => {
@@ -33,10 +36,19 @@ const Tasks = (props) => {
     }
     
     return (
-        <Page> 
-            <BlackText>Työpäiväkirja</BlackText>
-            {tasks.map(t => <Task key={t.id} task={t}/>)}
-        </Page>
+        <Page flexDirection='row' justifyContent='space-around'>
+           
+        <Column>
+            {tasks.map(t =>  
+            
+            <Task showNotification={props.showNotification} key={t.id} task={t}/>
+            
+            )}
+        </Column>
+        
+        <AddTask showNotification={props.showNotification}/>
+
+    </Page>
     )
 
 }

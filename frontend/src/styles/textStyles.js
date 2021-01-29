@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 export const TextPrimary = styled.span`
     font: 20px Verdana, sans-serif;
+    line-height: 1.6;
 `
 export const TextSecondary = styled.span`
     font: 15px Verdana, sans-serif;
@@ -20,10 +21,11 @@ export const BlackText = styled.span`
     color: black;
     font-weight: bold;
     padding-right: 10px;
+    line-height: 1.6;
 `
 export const LinkText = styled(Link)`
     font: 15px Verdana, sans-serif;
-    color: #FFFFFF;
+    color: ##034f84;
     font-weight: bold;
     padding-right: 10px;
 `

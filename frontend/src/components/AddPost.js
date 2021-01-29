@@ -26,7 +26,7 @@ const PostForm = ({ onSubmit }) => {
                 <FormikInput name='date' border='2px solid lightgrey' placeholder='Ajankohta' height='50px' width='500px'/>
                 <FormikInput name='text' border='2px solid lightgrey' placeholder='Teksti' height='500px' width='500px'/>
                 <FormikInput name='guests' border='2px solid lightgrey' placeholder='Vieraat. Erota nimet pilkulla toisistaan.' height='50px' width='500px'/>
-                <Button type='submit' background='lightgrey' height='40px' width='400px'>Lähetä</Button>
+                <Button type='submit' background='lightgrey' height='40px' width='500px'>Lähetä</Button>
             </Column>
         </form>
     </div>
@@ -38,7 +38,7 @@ const AddPost = (props) => {
 
     const [addPost /* , result */ ] = useMutation(ADD_POST, {
         onError: (error) => {
-            props.showNotification(`Tapahtui virhe: ${error.graphQLErrors[0].message}`)
+            props.showNotification(`Tapahtui virhe: ${error&&error.graphQLErrors[0]?error.graphQLErrors[0].extensions.exception.errors:{}}`)
         },
         refetchQueries: [ { query: ALL_POSTS }] //tätä voisi optimoida vielä lisää päivittämällä välimuisti itse (ks. FS 8.d: 5)
     })
@@ -55,6 +55,7 @@ const AddPost = (props) => {
                 guests: guestsOnArray, //Formik!
             }});
             resetForm({})
+            props.showNotification('Vieraskirjamerkintäsi on nyt tallennettu!')
         } catch (e) {
             console.log(e);
         }

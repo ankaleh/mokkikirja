@@ -60,15 +60,29 @@ export const StyledPost = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    
+    white-space: nowrap;    
+    text-overflow: ellipsis;
+    overflow: hidden;
 
 `
 export const StyledTask = styled.div`
-    padding: 10px;
     border: 2px solid  #618685;
     background: white;
-    width: 250px;
-    height: 100px;
+    width: 300px;
+    height: 300px;
     border-radius: 15px;
+    margin: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    white-space: nowrap;    
+    text-overflow: ellipsis;
+    overflow: hidden;
+
 `
 export const StyledTextContainer = styled.div`
     padding: 40px;
@@ -111,9 +125,7 @@ export const Info = styled.div`
     
     text-align: center;
 `
-export const Space = styled.div`
-    height: 50px;
-`
+
 export const Row = styled.div`
     display: flex;
     flex-direction: row;
@@ -125,4 +137,5 @@ export const Column = styled.div`
     align-items: center;
     
 `
+
 

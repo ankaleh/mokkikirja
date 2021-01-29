@@ -54,11 +54,13 @@ const Posts = (props) => {
             <Column>{posts.map(p =>  
                 <Link key={p.id} to={`/vieraskirja/${p.id}`}>
                     <StyledPost>
-                        <p><TextPrimary>{p.date}</TextPrimary></p>
+                        <TextPrimary>{p.date}</TextPrimary>
                         <Icon name='users' color='grey'/>
                         <Row>
                             <TextPrimary>
-                                {p.guests.reduce((prev, curr) => `${prev}, ${curr}`)}
+                                {p.guests.length > 2 || p.guests[0].length > 9 || p.guests[1] > 9
+                                ? `${p.guests[0]}, ${p.guests[1]}...`
+                                : p.guests.reduce((prev, curr) => `${prev} ja ${curr}`)}
                             </TextPrimary>
                         </Row>
                     </StyledPost>

@@ -12,11 +12,11 @@ const Post = ({ post }) => {
         <Page flexDirection='column' alignItems='center'>
             <BlackText>{post.writtenBy.name} kirjoitti:</BlackText>
             <TextPrimary>{post.date}</TextPrimary>
-            <Space></Space>
+            
             <StyledTextContainer>
                 <TextSecondary>{post.text}</TextSecondary>
             </StyledTextContainer>
-            <Space></Space>
+            
             <Row><TextPrimary>{post.guests.reduce((prev, curr) => `${prev}, ${curr}`)}</TextPrimary></Row>
         </Page>
     )   

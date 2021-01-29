@@ -4,7 +4,7 @@ import { Switch, Route, BrowserRouter as Router, Link } from 'react-router-dom'
 import { loader } from 'graphql.macro'
 import { Page, Navigation, Top, AccountInfo, Column, Row } from '../styles/div'
 import { TextPrimary, LinkText, WhiteText } from '../styles/textStyles'
-import Home from './Home'
+
 
 
 const ME = loader('../graphql/queries/me.graphql')
@@ -35,7 +35,7 @@ const User = (props) => {
                 ?   <div>
                         <AccountInfo>
                             <Row>
-                            <LinkText to={`/etusivu`}>Oma sivuni</LinkText>
+                            <LinkText to={`/varaukset`}>Varaa mökki</LinkText>
                             <Column>
                                 <WhiteText>{user.name}</WhiteText>
                                 <LinkText to='/kirjaudu-ulos'>Kirjaudu ulos</LinkText>

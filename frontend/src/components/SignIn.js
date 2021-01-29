@@ -31,7 +31,6 @@ const SignInForm = ({ onSubmit }) => {
 const SignIn = (props) => {
 
     const [signIn, result ] = useSignIn(props.showNotification);
-    const history = useHistory();
 
     const onSubmit = async (values) => {
         const { username, password } = values;

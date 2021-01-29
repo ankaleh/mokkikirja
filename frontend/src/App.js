@@ -13,8 +13,8 @@ import SignUp from './components/SignUp'
 import SignIn from './components/SignIn'
 import SignOut from './components/SignOut'
 import User from './components/User'
-import Post from './components/Post'
-import Home from './components/Home'
+import Reservations from './components/Reservations'
+
 
 const App = () => {
   const [ notification, setNotification ] = useState('')
@@ -53,9 +53,10 @@ const App = () => {
           <Route path='/vieraskirja'>
             <Posts showNotification={showNotification}/>
           </Route>
-          {/* <Route path='/etusivu'>
-            <Home showNotification={showNotification}/>
-          </Route> */}
+          <Route path='/varaukset'>
+            <Reservations showNotification={showNotification}/>
+          </Route>
+        
             <Page>
               
             </Page>

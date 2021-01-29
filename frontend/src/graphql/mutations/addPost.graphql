@@ -7,6 +7,8 @@ mutation ($date: String!, $text: String!, $guests: [String]!){
     date
     text
     guests
-    writtenBy
+    writtenBy {
+      name
+    }
   }
 }
