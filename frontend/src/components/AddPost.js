@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Formik, useField } from 'formik'
 import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn'
@@ -12,18 +12,26 @@ import { Column, Page } from '../styles/div'
 import { BlackText, InfoText } from '../styles/textStyles'
 
 import FormikInput from './FormikInput'
+import Calendar from 'react-calendar';
+import format from 'date-fns/format'
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 
 const ADD_POST = loader('../graphql/mutations/addPost.graphql')
 const ALL_POSTS = loader('../graphql/queries/allPosts.graphql')
 
 const PostForm = ({ onSubmit }) => {
-
+    const [startDate, setStartDate] = useState(new Date());
   return (
     <div>
         <form onSubmit={onSubmit}>
             <Column>
                 <BlackText>Kirjoita vieraskirjaan</BlackText>
+                <DatePicker selected={startDate} onChange={date => setStartDate(date)} />
                 <FormikInput name='date' border='2px solid lightgrey' placeholder='Ajankohta' height='50px' width='500px'/>
+                
                 <FormikInput name='text' border='2px solid lightgrey' placeholder='Teksti' height='500px' width='500px'/>
                 <FormikInput name='guests' border='2px solid lightgrey' placeholder='Vieraat. Erota nimet pilkulla toisistaan.' height='50px' width='500px'/>
                 <Button type='submit' background='lightgrey' height='40px' width='500px'>Lähetä</Button>
@@ -48,9 +56,10 @@ const AddPost = (props) => {
         const { date, text, guests } = values;
         console.log('Tekstikenttiin kirjoitettiin: ', values); //values on olio, jolla kentät date, text, guests
         const guestsOnArray = guests.split(',')
+        const formattedDate = format(date, 'dd-MM-yyyy')
         try {
             await addPost({ variables: {
-                date,
+                date: formattedDate,
                 text,
                 guests: guestsOnArray, //Formik!
             }});
@@ -63,7 +72,7 @@ const AddPost = (props) => {
 
     const validationSchema = yup.object().shape({
         date: yup
-            .string()    
+            .string()
             .required('Ajankohta vaaditaan.'),
         text: yup
             .string()    

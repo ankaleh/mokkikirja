@@ -30,12 +30,17 @@ const resolvers = {
         throw new AuthenticationError('Not authenticated backend.postissa!')
       }
       const post = new Post({ ...args, writtenBy: currentUser } )
-      console.log('uusi merkintä luotu', post)
+      
+      if (post.date instanceof Date) {
+        console.log('uusi merkintä luotu', post.text)
+      } else {
+        console.log(post.validateSync().errors['date'])
+      }
       try {
         await post.save()
         currentUser.posts = currentUser.posts.concat(post)
         await currentUser.save()
-        console.log('uusi merkintä tallennettu', post)
+        console.log('uusi merkintä tallennettu', post.text)
       } catch (error) {
         console.log('catchissa')
         throw new UserInputError(error.message, {
