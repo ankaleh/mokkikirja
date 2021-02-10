@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Formik, useField } from 'formik'
 import { useParams } from 'react-router-dom'
 import { Row, Page, StyledTextContainer, Space } from '../styles/div'
 import { BlackText, TextPrimary, TextSecondary } from '../styles/textStyles'
@@ -9,6 +10,7 @@ import format from 'date-fns/format'
 import '../styles/calendar.css'
 
 import { parseISO } from 'date-fns'
+import CustomCalendar from './CustomCalendar'
 
 const Reservations = (props) => { 
     const [selectedDayRange, setSelectedDayRange] = useState([])
@@ -31,8 +33,8 @@ const Reservations = (props) => {
                 )
         
     }
-    const tileContent = ({ date, view }) => {
-        
+    const tileClassName = ({ date, view }) => {
+       
     }
 
     const handleClick = () => {
@@ -48,25 +50,8 @@ const Reservations = (props) => {
         <Page flexDirection='column' alignItems='center'>
             <BlackText>Varaukset</BlackText>
             
-        <Calendar
-            onChange={setSelectedDayRange}
-            tileDisabled={tileDisabled}
-            tileContent={tileContent}
-            tileClassName={({date, view}) => {
-                return 'calendar'
-            }
-            }
-            onClickDay={(value, event) => {
-                setSelectedDay(value)
-                console.log(value)
-            }
-            }
-            selectRange={true}
-        />
-
-        <BlackText>Valintasi {selectedDayRange.length!==0
-        ? `${format(selectedDayRange[0], 'yyyy-MM-dd')} - ${format(selectedDayRange[1],'yyyy-MM-dd')}`
-        : `${format(selectedDay, 'yyyy-MM-dd')}`} </BlackText>
+            <CustomCalendar selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
+        
         <Button width='50' height='30' background='#bc5a45'
             onClick={() => handleClick()}>Tee varaus</Button>
 

@@ -6,7 +6,8 @@ const typeDefs = gql`
     type Post {
         id: ID!,
         writtenBy: User!,
-        date: String!,
+        startDate: String!,
+        endDate: String!,
         text: String!,
         guests: [String]!
     }
@@ -17,7 +18,8 @@ const typeDefs = gql`
 
     extend type Mutation {
         addPost(
-            date: String!,
+            startDate: String!,
+            endDate: String!
             text: String!,
             guests: [String]!
         ): Post
@@ -31,10 +33,11 @@ const resolvers = {
       }
       const post = new Post({ ...args, writtenBy: currentUser } )
       
-      if (post.date instanceof Date) {
+      if (post.startDate instanceof Date && post.endDate instanceof Date) {
         console.log('uusi merkintä luotu', post.text)
       } else {
-        console.log(post.validateSync().errors['date'])
+        console.log(post.validateSync().errors['startDate'])
+        console.log(post.validateSync().errors['endDate'])
       }
       try {
         await post.save()

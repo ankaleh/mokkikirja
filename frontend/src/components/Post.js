@@ -4,6 +4,7 @@ import { Row, Page, StyledTextContainer, Space } from '../styles/div'
 import { BlackText, TextPrimary, TextSecondary } from '../styles/textStyles'
 import 'semantic-ui-css/semantic.min.css'
 import { Icon } from 'semantic-ui-react'
+import format from 'date-fns/format'
 
 const Post = ({ post }) => { 
     
@@ -11,7 +12,7 @@ const Post = ({ post }) => {
         
         <Page flexDirection='column' alignItems='center'>
             <BlackText>{post.writtenBy.name} kirjoitti:</BlackText>
-            <TextPrimary>{post.date}</TextPrimary>
+            <TextPrimary>{`${format(new Date(post.startDate), 'dd.MM.yyyy')} - ${format(new Date(post.endDate), 'dd.MM.yyyy')}`}</TextPrimary>
             
             <StyledTextContainer>
                 <TextSecondary>{post.text}</TextSecondary>

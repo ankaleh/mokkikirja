@@ -13,10 +13,14 @@ const schema = new mongoose.Schema({
   guests: {
     type: [String]
   },
-  date: {
+  startDate: {
     type: Date,
     required: true
-  }
+  },
+  endDate: {
+    type: Date,
+    required: true
+  },
 
 })
 
