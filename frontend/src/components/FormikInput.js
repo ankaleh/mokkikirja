@@ -6,14 +6,15 @@ import { Text, Input } from '../styles/input'
 const FormikInput = ({ name, ...props }) => {
     const [field, meta, helpers] = useField(name);
     const showError = meta.touched && meta.error;
-    const showC = meta.touched
     
     if (props.type==='input') {
-      return <>
+      
+      return (<>
       <Input
-        onChange={({target}) => helpers.setValue(target.value)}
+        onChange={({target}) => {
+          console.log('target: ', target) 
+          helpers.setValue(target.value)}}
         onBlur={() => helpers.setTouched(true)}
-        
         value={field.value}
         error={showError}
         {...props}
@@ -21,20 +22,20 @@ const FormikInput = ({ name, ...props }) => {
      {showError && <InfoText>{meta.error}</InfoText>}
       
       
-    </>
+    </>)
     }
   
     return (
       <>
         <Text
-          onChange={({target}) => helpers.setValue(target.value)}
+          onChange={({target}) => {
+          helpers.setValue(target.value)}}
           onBlur={() => helpers.setTouched(true)}
           value={field.value}
           error={showError}
           {...props}
         />
         {showError && <InfoText>{meta.error}</InfoText>}
-        
       </>
     );
   };

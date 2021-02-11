@@ -22,6 +22,9 @@ const typeDefs = gql`
             endDate: String!
             text: String!,
             guests: [String]!
+        ): Post,
+        removePost(
+          id: ID!
         ): Post
     }
 `
@@ -43,14 +46,30 @@ const resolvers = {
         await post.save()
         currentUser.posts = currentUser.posts.concat(post)
         await currentUser.save()
-        console.log('uusi merkintä tallennettu', post.text)
+        console.log('uusi merkintä tallennettu', post.startDate, post.endDate)
       } catch (error) {
-        console.log('catchissa')
+        console.log('catchissa: tallentaminen ei onnistunut', error)
         throw new UserInputError(error.message, {
           invalidArgs: args,
         })
       }
       return post
+    },
+    removePost: async (root, args, { currentUser }) => { 
+      if (!currentUser) {
+          throw new AuthenticationError('Not authenticated!')
+      }
+      try {
+          const posts = currentUser.posts.filter((p)=> p.id !== args.id) //ei poista käyttäjältä!
+          console.log(posts)
+          currentUser.posts = posts
+          await currentUser.save()
+          return Post.findByIdAndRemove(args.id)
+        } catch (error) { 
+          throw new UserInputError(error.message, {
+            invalidArgs: args,
+        })
+      }
     }
   },
   Query: {

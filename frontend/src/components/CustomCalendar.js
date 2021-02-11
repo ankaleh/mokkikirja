@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Row, Page, StyledTextContainer, Space } from '../styles/div'
-import { BlackText, TextPrimary, TextSecondary } from '../styles/textStyles'
+import { BlackText, InfoText, TextPrimary, TextSecondary } from '../styles/textStyles'
 import 'semantic-ui-css/semantic.min.css'
 import { Icon } from 'semantic-ui-react'
 import format from 'date-fns/format'
@@ -12,10 +12,10 @@ import FormikInput from './FormikInput'
 import { Input } from '../styles/input'
 import { Button } from '../styles/button'
 
-const CustomCalendar = ({selectedDayRange, setSelectedDayRange}) => { 
-    //const [selectedDayRange, setSelectedDayRange] = useState([])
+const CustomCalendar = ({selectedDayRange, setSelectedDayRange, datesNotAdded}) => { 
 
     const tileClassName = ({date, view}) => {
+
         if (selectedDayRange.length > 1) {
          var reservedDays = eachDayOfInterval({
              start: new Date(selectedDayRange[0]),
@@ -33,7 +33,6 @@ const CustomCalendar = ({selectedDayRange, setSelectedDayRange}) => {
          return ['focusDay', 'day']
            
      }
-     
     
     return (
         <>
@@ -42,13 +41,14 @@ const CustomCalendar = ({selectedDayRange, setSelectedDayRange}) => {
             onChange={setSelectedDayRange}
             tileClassName={tileClassName}
             selectRange={true}
-            onClickDay={(value) => setSelectedDayRange([value])}
+            onClickDay={(value) => setSelectedDayRange([value/* .toISOString() */])}
         />
-        {selectedDayRange.length!==0
+       {selectedDayRange.length>0 
         ? <button className='calendarButton' height='10px' width='200px' onClick={()=> setSelectedDayRange([])}>Tyhjennä valinnat</button>
-        : null}
-       
-        <p>Valitsemasi ajanjakso: {selectedDayRange.length!==0 ? format(selectedDayRange[0], 'dd.MM.yyyy') : ''} - {selectedDayRange.length===2 ? format(selectedDayRange[1], 'dd.MM.yyyy') : ''}</p>
+        : null /* <InfoText>Päivämäärät vaaditaan.</InfoText> */} 
+        {datesNotAdded && selectedDayRange.length===0 
+        ? <InfoText>Päivämäärät vaaditaan.</InfoText>
+        : null} 
     </>
     )   
 

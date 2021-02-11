@@ -6,6 +6,7 @@ const merge  = require('lodash/merge')
 const post = require('./types/post')
 const task = require('./types/task')
 const user = require('./types/user')
+const reservation = require('./types/reservation')
 
 const User = require('./models/userModel')
 
@@ -33,8 +34,8 @@ const createServer = async (mongoUri) => {
     }
 `
   const schema = makeExecutableSchema({
-    typeDefs: [ task.typeDefs, post.typeDefs, user.typeDefs, Query, Mutation ],
-    resolvers: merge(user.resolvers, post.resolvers, task.resolvers),
+    typeDefs: [ task.typeDefs, post.typeDefs, user.typeDefs, reservation.typeDefs, Query, Mutation ],
+    resolvers: merge(user.resolvers, post.resolvers, task.resolvers, reservation.resolvers),
   })
 
   const server = new ApolloServer({

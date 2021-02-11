@@ -46,7 +46,6 @@ const Reservations = (props) => {
     }
 
     return (
-        
         <Page flexDirection='column' alignItems='center'>
             <BlackText>Varaukset</BlackText>
             
