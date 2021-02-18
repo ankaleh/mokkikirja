@@ -29,6 +29,7 @@ const resolvers = {
         throw new AuthenticationError('Not authenticated backend.postissa!')
       }
       const reservation = new Reservation({ ...args, reservedBy: currentUser } )
+      console.log('startDate: ', reservation.startDate, 'endDate: ', reservation.endDate)
       
       if (reservation.startDate instanceof Date && reservation.endDate instanceof Date) {
         console.log('uusi varaus luotu')
@@ -36,6 +37,7 @@ const resolvers = {
         console.log(reservation.validateSync().errors['startDate'])
         console.log(reservation.validateSync().errors['endDate'])
       }
+  
       try {
         await reservation.save()
         currentUser.reservations = currentUser.reservations.concat(reservation)
@@ -54,9 +56,9 @@ const resolvers = {
             throw new AuthenticationError('Not authenticated!')
         }
         try {
-          const reservations = currentUser.reservations.filter((r)=> r.id !== args.id)
-          console.log(reservations)
-          currentUser.reservations = reservations //ei poista käyttäjältä
+          const reservation = await Reservation.findById(args.id)
+          const resIndex = await currentUser.reservations.indexOf(reservation)
+          await currentUser.reservations.splice(resIndex, 1) //poistaa yhden alkion annetussa indeksissä
           await currentUser.save()
           return Reservation.findByIdAndRemove(args.id)
           } catch (error) {
@@ -64,8 +66,8 @@ const resolvers = {
               invalidArgs: args,
             })
           }
-    }
-   
+    } 
+  
   },
   Query: {
     allReservations: (root, args, { currentUser }) => { 

@@ -16,7 +16,7 @@ const secret = process.env.SECRET
 const createServer = async (mongoUri) => {
 
   await mongoose.connect(mongoUri,
-    { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+    { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false })
     .then(() => {
       console.log('Yhdistetty tietokantaan.')
     })
@@ -47,7 +47,7 @@ const createServer = async (mongoUri) => {
       //console.log(req.headers.authorization)
       if (auth && auth.toLowerCase().startsWith('bearer')) {
         const decodedToken = jwt.verify(auth.substring(7), secret)
-        console.log('decodedToken: ', decodedToken)
+        //console.log('decodedToken: ', decodedToken)
         const currentUser = await User.findById(decodedToken.id)
         return { currentUser } //contextin kentäksi
       }

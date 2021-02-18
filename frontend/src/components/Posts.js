@@ -22,6 +22,7 @@ const Posts = (props) => {
 
     useEffect(() => {
         if (allPosts.data) {
+            //console.log(allPosts.data.allPosts)
             setPosts(allPosts.data.allPosts)
         }
         if (allPosts.error) {
@@ -45,14 +46,14 @@ const Posts = (props) => {
     if (id) {
         const post = posts.find(p => p.id === id)
         return (
-            <Post post={post}/>
+            <Post post={post} showNotification={props.showNotification}/>
         )
     }
 
     return (
         <Page flexDirection='row' justifyContent='space-around'>
            
-            <Column>{posts.map(p =>  
+            <Column>{posts.map(p => 
                 <Link key={p.id} to={`/vieraskirja/${p.id}`}>
                     <StyledPost>
                         <TextPrimary>{`${format(new Date(p.startDate), 'dd.MM.yyyy')} - ${format(new Date(p.endDate), 'dd.MM.yyyy')}`}</TextPrimary>

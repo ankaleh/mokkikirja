@@ -8,6 +8,8 @@ import { useMutation } from '@apollo/client'
 import { Column, Page, StyledTask, Row, Space } from '../styles/div'
 
 const MARK_AS_DONE = loader('../graphql/mutations/markAsDone.graphql')
+const REMOVE_TASK = loader('../graphql/mutations/removeTask.graphql')
+const ALL_TASKS = loader('../graphql/queries/allTasks.graphql')
 
 const Task = (props) => {
 
@@ -15,10 +17,27 @@ const Task = (props) => {
         onError: (error) => {
             props.showNotification(`Tapahtui virhe: ${error&&error.graphQLErrors[0]?error.graphQLErrors[0].extensions.exception.errors:{}}`)
         },
-
     })
 
-    const handleClick = async (event, description) => {
+    const [ removeTask ] = useMutation(REMOVE_TASK, {
+        onError: (error) => {
+            props.showNotification(`Tapahtui virhe: ${error&&error.graphQLErrors[0]?error.graphQLErrors[0].extensions.exception.errors:{}}`)
+        },
+        update: (store, response) => {
+            const dataInStore = store.readQuery({ query: ALL_TASKS })
+            console.log('dataInStore, dataInStore.allPosts: ', dataInStore, dataInStore.allTasks)
+            console.log('poistettu: ', response.data.removeTask)
+            if (dataInStore) {
+                store.writeQuery({ //tästä tulee varoitus, ks.mahd. ratkaisu: https://blog.efounders.co/optimising-list-item-deletion-with-apollos-client-directive-and-fragments-dc2affc3c3ef
+                    query: ALL_TASKS,
+                    data: {
+                        allTasks: dataInStore.allTasks.filter(p => p.id !== response.data.removeTask.id)
+                    }
+                })
+            }
+    }})
+
+    const handleClickMarkAsDone = async (event, description) => {
         event.preventDefault()
         try {
             markAsDone({ variables:
@@ -29,6 +48,20 @@ const Task = (props) => {
         
         } catch (e) {
             console.log(e)
+            props.showNotification(`Tapahtui virhe: ${e}`)
+        }
+    }
+
+    const handleClickRemove = async (event, id) => {
+        event.preventDefault()
+        try {
+            removeTask({ 
+                variables: { id }
+            })
+            props.showNotification('Työ on nyt poistettu!')
+
+        } catch (e) {
+            props.showNotification(`Tapahtui virhe: ${e}`)
         }
     }
     
@@ -48,7 +81,8 @@ const Task = (props) => {
                     ? <Column><BlackText>{props.task.doneBy.name}</BlackText> 
                         <BlackText>merkitsi työn tehdyksi</BlackText>
                         </Column>
-                    : <Button width='50' height='30' background='#bc5a45' onClick={(e) => handleClick(e, props.task.description)}>Merkitse työ tehdyksi</Button>}
+                    : <Button height='30' background='#bc5a45' onClick={(e) => handleClickMarkAsDone(e, props.task.description)}>Merkitse työ tehdyksi</Button>}
+                    <Button height='30' background='#bc5a45' onClick={(e) => handleClickRemove(e, props.task.id)}>Poista työ</Button>
                 </StyledTask>
        
     )   

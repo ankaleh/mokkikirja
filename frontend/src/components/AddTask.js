@@ -64,7 +64,7 @@ const AddTask = (props) => {
     })
 
     return (
-        <Formik initialValues={{date: '', text: '', guests: ''}} 
+        <Formik initialValues={{description: ''}} 
             onSubmit={onSubmit} validationSchema={validationSchema}>
 
                 {({handleSubmit}) => <TaskForm onSubmit={handleSubmit} />} 

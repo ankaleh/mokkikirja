@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Formik } from 'formik'
 import * as yup from 'yup';
 import { loader } from 'graphql.macro'
-import { useMutation } from '@apollo/client'
+import { useMutation, useApolloClient } from '@apollo/client'
 
 import { Button } from '../styles/button'
 import { Input } from '../styles/input'
@@ -24,11 +24,14 @@ const AddPost = (props) => {
     const [datesNotAdded, setDatesNotAdded] = useState(false)
     const showWhenCalendarVisible = {display: calendarVisible ? '' : 'none'}
 
+    const client = useApolloClient()
+
     const [addPost /* , result */ ] = useMutation(ADD_POST, {
         onError: (error) => {
             props.showNotification(`Tapahtui virhe: ${error&&error.graphQLErrors[0]?error.graphQLErrors[0].extensions.exception.errors:{}}`)
         },
-        refetchQueries: [ { query: ALL_POSTS }] //tätä voisi optimoida vielä lisää päivittämällä välimuisti itse (ks. FS 8.d: 5)
+        refetchQueries: [ { query: ALL_POSTS }], 
+        
     })
 
     const onSubmit = async (values, { resetForm }) => {
@@ -41,13 +44,15 @@ const AddPost = (props) => {
         }
         try {
             await addPost({ variables: {
-                startDate: selectedDayRange[0], 
-                endDate: selectedDayRange[1],
+                startDate: format(selectedDayRange[0], 'yyyy-MM-dd'),
+                endDate: format(selectedDayRange[1], 'yyyy-MM-dd'),
                 text,
                 guests: guestsOnArray, //Formik!
             }});
             resetForm({})
             props.showNotification('Vieraskirjamerkintäsi on nyt tallennettu!')
+            setSelectedDayRange([])
+            setCalendarVisible(false)
         } catch (e) {
             console.log(e);
         }

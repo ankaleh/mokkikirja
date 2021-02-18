@@ -12,7 +12,7 @@ import FormikInput from './FormikInput'
 import { Input } from '../styles/input'
 import { Button } from '../styles/button'
 
-const CustomCalendar = ({selectedDayRange, setSelectedDayRange, datesNotAdded}) => { 
+const CustomCalendar = ({ selectedDayRange, setSelectedDayRange, datesNotAdded }) => { 
 
     const tileClassName = ({date, view}) => {
 
@@ -41,11 +41,11 @@ const CustomCalendar = ({selectedDayRange, setSelectedDayRange, datesNotAdded}) 
             onChange={setSelectedDayRange}
             tileClassName={tileClassName}
             selectRange={true}
-            onClickDay={(value) => setSelectedDayRange([value/* .toISOString() */])}
+            onClickDay={(value) => setSelectedDayRange([ value ])}
         />
        {selectedDayRange.length>0 
         ? <button className='calendarButton' height='10px' width='200px' onClick={()=> setSelectedDayRange([])}>Tyhjennä valinnat</button>
-        : null /* <InfoText>Päivämäärät vaaditaan.</InfoText> */} 
+        : null} 
         {datesNotAdded && selectedDayRange.length===0 
         ? <InfoText>Päivämäärät vaaditaan.</InfoText>
         : null} 

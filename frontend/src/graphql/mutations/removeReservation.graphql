@@ -1,0 +1,8 @@
+mutation ($id: ID!){
+  removeReservation(
+      id: $id
+  ){
+    endDate
+    startDate
+  }
+}

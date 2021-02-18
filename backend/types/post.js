@@ -59,10 +59,11 @@ const resolvers = {
       if (!currentUser) {
           throw new AuthenticationError('Not authenticated!')
       }
+
       try {
-          const posts = currentUser.posts.filter((p)=> p.id !== args.id) //ei poista käyttäjältä!
-          console.log(posts)
-          currentUser.posts = posts
+          const post = await Post.findById(args.id)
+          const postIndex = await currentUser.posts.indexOf(post)
+          await currentUser.posts.splice(postIndex, 1)
           await currentUser.save()
           return Post.findByIdAndRemove(args.id)
         } catch (error) { 
