@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { Row, Page, StyledTextContainer, Space } from '../styles/div'
 import { BlackText, TextPrimary, TextSecondary } from '../styles/textStyles'
 import { Button } from '../styles/button'
-import 'semantic-ui-css/semantic.min.css'
+
 import format from 'date-fns/format'
 import { loader } from 'graphql.macro'
 
@@ -20,8 +20,8 @@ const Post = ({ post, showNotification }) => {
         },
         update: (store, response) => {
             const dataInStore = store.readQuery({ query: ALL_POSTS })
-            console.log('dataInStore, dataInStore.allPosts: ', dataInStore, dataInStore.allPosts)
-            console.log('poistettu: ', response.data.removePost)
+            //console.log('dataInStore, dataInStore.allPosts: ', dataInStore, dataInStore.allPosts)
+            //console.log('poistettu: ', response.data.removePost)
             if (dataInStore) {
                 store.writeQuery({ //tästä tulee varoitus, ks.mahd. ratkaisu: https://blog.efounders.co/optimising-list-item-deletion-with-apollos-client-directive-and-fragments-dc2affc3c3ef
                     query: ALL_POSTS,
@@ -30,7 +30,7 @@ const Post = ({ post, showNotification }) => {
                     }
                 })
             }
-        }})
+    }})
     
 
     const client = useApolloClient()
@@ -40,16 +40,15 @@ const Post = ({ post, showNotification }) => {
 
     const handleClickRemove = async (event, id) => {
         try {
-            await removePost({ 
+            removePost({ 
                 variables: { id }
             })
-            showNotification('Merkintä on nyt poistettu!')
             history.push('/vieraskirja')
+            showNotification('Merkintä on nyt poistettu!')
         } catch(e) {
             console.log(e)
             showNotification(`Tapahtui virhe: ${e}`)
         }
-        
     }
     
     return (

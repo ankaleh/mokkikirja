@@ -9,8 +9,6 @@ import { Button } from '../styles/button'
 import { Text } from '../styles/input'
 import AddPost from './AddPost'
 import { StyledPost, Row } from '../styles/div'
-import 'semantic-ui-css/semantic.min.css'
-import { Icon } from 'semantic-ui-react'
 import format from 'date-fns/format'
 
 const ALL_POSTS = loader('../graphql/queries/allPosts.graphql')
@@ -57,7 +55,7 @@ const Posts = (props) => {
                 <Link key={p.id} to={`/vieraskirja/${p.id}`}>
                     <StyledPost>
                         <TextPrimary>{`${format(new Date(p.startDate), 'dd.MM.yyyy')} - ${format(new Date(p.endDate), 'dd.MM.yyyy')}`}</TextPrimary>
-                        <Icon name='users' color='grey'/>
+                        
                         <Row>
                             <TextPrimary>
                                 {p.guests.length > 2 || p.guests[0].length > 9 || p.guests[1] > 9

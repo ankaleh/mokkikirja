@@ -56,9 +56,9 @@ const resolvers = {
       }
       const task = await Task.findOne({ description: args.description })//tähän vaihdettava id hakuavaimeksi
       task.done = true
-      console.log(task.done)
+      //console.log(task.done)
       task.doneBy = currentUser
-      console.log(task.doneBy.name)
+      //console.log(task.doneBy.name)
       try {
         await task.save()
         currentUser.tasks = currentUser.tasks.concat(task)

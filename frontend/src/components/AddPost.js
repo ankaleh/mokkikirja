@@ -39,7 +39,7 @@ const AddPost = (props) => {
         console.log('Tekstikenttiin kirjoitettiin: ', values); //values on olio, jolla kentät date, text, guests
         const guestsOnArray = guests.split(',')
         if (selectedDayRange.length<2) {
-            alert('Lisää päivämäärät!') 
+            props.showNotification('Tapahtui virhe: Lisää päivämäärät!') 
             return
         }
         try {
@@ -68,11 +68,14 @@ const AddPost = (props) => {
             
     })
 
+    const checkDayRange = (dayRange) => {
+        setSelectedDayRange(dayRange)
+    }
     return (
         <Column>
         <BlackText>Kirjoita vieraskirjaan</BlackText>
             <div style={showWhenCalendarVisible}>
-                <CustomCalendar datesNotAdded={datesNotAdded} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
+                <CustomCalendar datesNotAdded={datesNotAdded} checkDayRange={checkDayRange} reservedDayRanges={[]} selectedDayRange={selectedDayRange}/>
             </div> 
             <Button type='submit' background='lightgrey' onClick={() => {
                     if (selectedDayRange.length<2 && calendarVisible) {

@@ -5,6 +5,12 @@
       background-color: #F7F7F7;
         
   }
+.reservedDay {
+      font-weight: bold;
+      color:#8ebc45;
+      background-color: #F7F7F7;
+        
+}
 .selectedDays {
       color:#bc5a45;
       border: 0.5px solid #bc5a45;
@@ -21,7 +27,7 @@
       margin: 2px;
 }
 
-.calendar {
+/* .calendar {
       height: 200px;
       width: 200px;
       font-weight: bold;
@@ -30,7 +36,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-}
+} */
 
 .calendarButton {
       height: 30px;

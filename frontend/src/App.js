@@ -5,7 +5,7 @@ import { loader } from 'graphql.macro'
 import { Page, Navigation, Margin, AccountInfo } from './styles/div'
 import Notification from './components/Notification'
 import { TextPrimary, LinkText, InfoText } from './styles/textStyles'
-import { Button } from 'semantic-ui-react'
+
 import useSignIn from './hooks/useSignIn'
 import Posts from './components/Posts'
 import Tasks from './components/Tasks'

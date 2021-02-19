@@ -6,7 +6,7 @@ import { InfoText } from '../styles/textStyles'
 import { loader } from 'graphql.macro'
 import { Column, Page, StyledTask, Row } from '../styles/div'
 import AddTask from './AddTask'
-import 'semantic-ui-css/semantic.min.css'
+
 
 const ALL_TASKS = loader('../graphql/queries/allTasks.graphql')
 

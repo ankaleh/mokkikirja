@@ -1,58 +1,40 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Formik, useField } from 'formik'
 import { useParams } from 'react-router-dom'
 import { Row, Page, StyledTextContainer, Space } from '../styles/div'
 import { BlackText, TextPrimary, TextSecondary } from '../styles/textStyles'
 import { Button } from '../styles/button'
 import { loader } from 'graphql.macro'
-import { useApolloClient, useMutation, gql } from '@apollo/client'
+import { useApolloClient, useMutation, gql, useQuery } from '@apollo/client'
 
-import Calendar from 'react-calendar'
 import format from 'date-fns/format'
-import '../styles/calendar.css'
-
-import { parseISO } from 'date-fns'
+import { areIntervalsOverlapping } from 'date-fns'
 import CustomCalendar from './CustomCalendar'
 
 const ADD_RESERVATION = loader('../graphql/mutations/addReservation.graphql')
+const ALL_RESERVATIONS = loader('../graphql/queries/allReservations.graphql')
 
-const Reservations = (props) => { 
+const Reservations = (props) => {
+
     const [selectedDayRange, setSelectedDayRange] = useState([])
-    const [selectedDay, setSelectedDay] = useState(new Date());
-    
+    const [reservedDayRanges, setReservedDayRanges] = useState([]) //taulukko, jossa taulukkoalkioina kunkin varauksen päivämäärät
+
+    const allReservations/* { data, error, loading } */ = useQuery(ALL_RESERVATIONS)
     const [addReservation /* , result */ ] = useMutation(ADD_RESERVATION, {
         onError: (error) => {
             props.showNotification(`Tapahtui virhe: ${error&&error.graphQLErrors[0]?error.graphQLErrors[0].extensions.exception.errors:{}}`)
-        }
+        },
+        refetchQueries: [ { query: ALL_RESERVATIONS }], 
     })
-    
-    const disabledDays = [ //tähän haku varatuista päivistä
-        new Date(2021, 1, 5),
-        new Date(2021, 1, 7)
-    ];
- 
-    const tileDisabled = ({ date, view }) => {
-        //if (view === 'month') 
-            return disabledDays.find(dDate => {
-                const d = format(dDate, 'yyyy-MM-dd')
-                const dd = format(date, 'yyyy-MM-dd')
-                //console.log('d: ',d, 'dd: ', dd)
-                return d === dd
-                }
-                )
-        
-    }
-    const tileClassName = ({ date, view }) => {
-       
-    }
 
-    /* const handleClick = () => {
-        //event.preventDefault()
-        if (selectedDayRange.length===2) {
-            console.log(selectedDayRange)
+    useEffect(() => {
+        if (allReservations.data) {
+            setReservedDayRanges(allReservations.data.allReservations.map(r => [ r.startDate, r.endDate ]))
         }
-        console.log(selectedDay)
-    } */
+        if (allReservations.error) {
+            props.showNotification(`Tapahtui virhe: ${allReservations.error.message}`)
+        } 
+    }, [allReservations]); 
 
     const handleClick = async () => {
         console.log('startDate: ', selectedDayRange[0], 'endDate: ', selectedDayRange[1])
@@ -63,10 +45,29 @@ const Reservations = (props) => {
                     endDate: format(selectedDayRange[1], 'yyyy-MM-dd')
                 }
             })
-            props.showNotification('Varaus on nyt tehty!')
+            props.showNotification('Varaus on nyt tehty! Voit perua varauksen omalla sivullasi.')
             
         } catch(e) {
             props.showNotification(`Tapahtui virhe: ${e}`)
+        }
+    }
+
+    //tarkistaa, sisältääkö kalenterista valittu ajanjakso varattuja päiviä
+    const checkDayRange = (dayRange) => {
+        if (dayRange.length===2) {
+            const a =  reservedDayRanges.map(array => {
+                return areIntervalsOverlapping(
+                    { start: new Date(array[0]), end: new Date(array[1]) },
+                    { start: new Date(dayRange[0]), end: new Date(dayRange[1]) }
+                )
+            })
+            if (a.find(b => b===true)) {
+                alert('Valitsemiesi päivämäärien välissä on varattuja päiviä!')
+            } else {
+                setSelectedDayRange(dayRange)
+            }
+        } else {
+            setSelectedDayRange(dayRange)
         }
         
     }
@@ -75,17 +76,17 @@ const Reservations = (props) => {
         <Page flexDirection='column' alignItems='center'>
             <BlackText>Varaukset</BlackText>
             
-            <CustomCalendar selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
+            <CustomCalendar checkDayRange={checkDayRange} reservedDayRanges={reservedDayRanges} selectedDayRange={selectedDayRange} setSelectedDayRange={setSelectedDayRange}/>
         
         <Button width='50' height='30' background='#bc5a45'
             onClick={() => handleClick()}>Tee varaus</Button>
 
-        <Button width='50' height='30' background='#bc5a45'
+        {/* <Button width='50' height='30' background='#bc5a45'
             onClick={() => {
                 setSelectedDay(new Date())
                 setSelectedDayRange([])
-                }}>Peruuta</Button>
-        </Page>
+                }}>Peruuta</Button> */}
+            </Page> 
         
     )   
 

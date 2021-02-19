@@ -1,6 +1,4 @@
 import React from 'react'
-import 'semantic-ui-css/semantic.min.css'
-import { Icon } from 'semantic-ui-react'
 import { TextPrimary, InfoText, BlackText } from '../styles/textStyles'
 import { Button } from '../styles/button'
 import { loader } from 'graphql.macro'
@@ -68,10 +66,7 @@ const Task = (props) => {
     return (
        
         <StyledTask>
-                    {props.task.done
-                    ? <Icon name='lock' color='green' size='large'/>
-                    : <Icon name='lock open' color='red' size='large'/>}
-                    <p></p>
+                    
                     <Column>
                         <BlackText>{props.task.addedBy.name}</BlackText>
                         <BlackText>lisäsi työn:</BlackText>
