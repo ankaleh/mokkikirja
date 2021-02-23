@@ -6,5 +6,6 @@ query {
       id
       name
     }
+    id
   }
 }

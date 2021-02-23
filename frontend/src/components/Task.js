@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextPrimary, InfoText, BlackText } from '../styles/textStyles'
+import { TextPrimary, InfoText, BlackText, HeadingSecondary } from '../styles/textStyles'
 import { Button } from '../styles/button'
 import { loader } from 'graphql.macro'
 import { useMutation } from '@apollo/client'
@@ -64,7 +64,8 @@ const Task = (props) => {
     }
     
     return (
-       
+       <Column>
+       <HeadingSecondary>Työpäiväkirja</HeadingSecondary>
         <StyledTask>
                     
                     <Column>
@@ -76,10 +77,10 @@ const Task = (props) => {
                     ? <Column><BlackText>{props.task.doneBy.name}</BlackText> 
                         <BlackText>merkitsi työn tehdyksi</BlackText>
                         </Column>
-                    : <Button height='30' background='#bc5a45' onClick={(e) => handleClickMarkAsDone(e, props.task.description)}>Merkitse työ tehdyksi</Button>}
-                    <Button height='30' background='#bc5a45' onClick={(e) => handleClickRemove(e, props.task.id)}>Poista työ</Button>
+                    : <Button height='30' background='lightgrey' onClick={(e) => handleClickMarkAsDone(e, props.task.description)}>Merkitse työ tehdyksi</Button>}
+                    <Button height='30' background='lightgrey' onClick={(e) => handleClickRemove(e, props.task.id)}>Poista työ</Button>
                 </StyledTask>
-       
+        </Column>
     )   
 
 }

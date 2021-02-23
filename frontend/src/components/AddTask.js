@@ -9,7 +9,7 @@ import { useApolloClient, useMutation } from '@apollo/client'
 import { Button } from '../styles/button'
 import { Input } from '../styles/input'
 import { Column, Page, StyledTask, Row } from '../styles/div'
-import { BlackText, InfoText } from '../styles/textStyles'
+import { BlackText, InfoText, HeadingSecondary } from '../styles/textStyles'
 
 import FormikInput from './FormikInput'
 
@@ -22,7 +22,7 @@ const TaskForm = ({ onSubmit }) => {
     <div>
         <form onSubmit={onSubmit}>
             <Column>
-                <BlackText>Lisää työ</BlackText>
+                <HeadingSecondary>Lisää työ</HeadingSecondary>
                 <FormikInput name='description' border='2px solid lightgrey' placeholder='Työn kuvaus' height='60px' width='500px'/>
                 <Button type='submit' background='lightgrey' height='40px' width='500px'>Tallenna</Button>
             </Column>

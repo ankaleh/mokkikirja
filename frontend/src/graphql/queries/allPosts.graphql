@@ -6,6 +6,7 @@ query {
         guests
         writtenBy {
             name
+            id
         }
         id
     

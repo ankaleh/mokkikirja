@@ -7,7 +7,7 @@ import { useMutation, useApolloClient } from '@apollo/client'
 import { Button } from '../styles/button'
 import { Input } from '../styles/input'
 import { Column, Page, Row } from '../styles/div'
-import { BlackText, InfoText } from '../styles/textStyles'
+import { BlackText, InfoText, TextPrimary, HeadingSecondary } from '../styles/textStyles'
 
 import FormikInput from './FormikInput'
 import CustomCalendar from './CustomCalendar'
@@ -73,7 +73,7 @@ const AddPost = (props) => {
     }
     return (
         <Column>
-        <BlackText>Kirjoita vieraskirjaan</BlackText>
+        <HeadingSecondary>Kirjoita vieraskirjaan</HeadingSecondary>
             <div style={showWhenCalendarVisible}>
                 <CustomCalendar datesNotAdded={datesNotAdded} checkDayRange={checkDayRange} reservedDayRanges={[]} selectedDayRange={selectedDayRange}/>
             </div> 

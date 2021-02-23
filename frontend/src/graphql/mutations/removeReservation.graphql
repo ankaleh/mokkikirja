@@ -4,5 +4,6 @@ mutation ($id: ID!){
   ){
     endDate
     startDate
+    id
   }
 }

@@ -62,7 +62,7 @@ const Post = ({ post, showNotification }) => {
             </StyledTextContainer>
             
             <Row><TextPrimary>{post.guests.reduce((prev, curr) => `${prev}, ${curr}`)}</TextPrimary></Row>
-            {data.me.name === post.writtenBy.name
+            {data.me.id === post.writtenBy.id
             ? <Button background='lightgrey' height='40px' width='500px' onClick={(e) => handleClickRemove(e, post.id)}>Poista merkintä</Button>
             : null}
             

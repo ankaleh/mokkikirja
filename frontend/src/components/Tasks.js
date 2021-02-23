@@ -4,7 +4,7 @@ import Task from './Task'
 import Error from './Notification'
 import { InfoText } from '../styles/textStyles'
 import { loader } from 'graphql.macro'
-import { Column, Page, StyledTask, Row } from '../styles/div'
+import { Column, Page, StyledTask, Row, Borderline } from '../styles/div'
 import AddTask from './AddTask'
 
 
@@ -40,12 +40,10 @@ const Tasks = (props) => {
            
         <Column>
             {tasks.map(t =>  
-            
             <Task showNotification={props.showNotification} key={t.id} task={t}/>
-            
             )}
         </Column>
-        
+        <Borderline></Borderline>
         <AddTask showNotification={props.showNotification}/>
 
     </Page>

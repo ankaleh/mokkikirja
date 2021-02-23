@@ -86,7 +86,7 @@ const CustomCalendar = ({ checkDayRange, reservedDayRanges, selectedDayRange, da
         : null}  */}
         {selectedDayRange.length<2
         ? null
-        : <InfoText>{`Valitsemasi päivät ${format(selectedDayRange[0], 'dd.MM.yyyy')}-${format(selectedDayRange[1], 'dd.MM.yyyy')}`}</InfoText>}
+        : <InfoText>{`Valitsemasi päivät: ${format(selectedDayRange[0], 'dd.MM.yyyy')}-${format(selectedDayRange[1], 'dd.MM.yyyy')}`}</InfoText>}
         {datesNotAdded && selectedDayRange.length===0 
         ? <InfoText>Päivämäärät vaaditaan.</InfoText>
         : null} 

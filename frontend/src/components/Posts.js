@@ -4,11 +4,11 @@ import { loader } from 'graphql.macro'
 import { useQuery } from '@apollo/client'
 import Post from './Post'
 import { Page, Column } from '../styles/div'
-import { TextPrimary, InfoText } from '../styles/textStyles'
+import { TextPrimary, InfoText, BlackText, HeadingSecondary, LinkTextColored } from '../styles/textStyles'
 import { Button } from '../styles/button'
 import { Text } from '../styles/input'
 import AddPost from './AddPost'
-import { StyledPost, Row } from '../styles/div'
+import { StyledPost, Row, Borderline } from '../styles/div'
 import format from 'date-fns/format'
 
 const ALL_POSTS = loader('../graphql/queries/allPosts.graphql')
@@ -51,8 +51,10 @@ const Posts = (props) => {
     return (
         <Page flexDirection='row' justifyContent='space-around'>
            
-            <Column>{posts.map(p => 
-                <Link key={p.id} to={`/vieraskirja/${p.id}`}>
+            <Column>
+            <HeadingSecondary>Vieraskirja</HeadingSecondary>
+            {posts.map(p => 
+                <LinkTextColored key={p.id} to={`/vieraskirja/${p.id}`}>
                     <StyledPost>
                         <TextPrimary>{`${format(new Date(p.startDate), 'dd.MM.yyyy')} - ${format(new Date(p.endDate), 'dd.MM.yyyy')}`}</TextPrimary>
                         
@@ -64,10 +66,10 @@ const Posts = (props) => {
                             </TextPrimary>
                         </Row>
                     </StyledPost>
-                </Link>
+                </LinkTextColored>
                 )}
             </Column>
-            
+            <Borderline></Borderline>
             <AddPost showNotification={props.showNotification}/>
 
         </Page>
