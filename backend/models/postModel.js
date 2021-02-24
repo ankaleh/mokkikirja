@@ -10,9 +10,15 @@ const schema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  guests: {
+  unidentifiedGuests: {
     type: [String]
   },
+  guests: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
   startDate: {
     type: Date,
     required: true

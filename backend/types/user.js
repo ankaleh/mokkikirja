@@ -24,6 +24,7 @@ const typeDefs = gql`
     }
     extend type Query {
         me: User
+        allUsers: [User!]!
     }
     extend type Mutation {
         createUser(
@@ -71,7 +72,14 @@ const resolvers = {
   Query: {
     me: (root, args, { currentUser }) => {
       return currentUser
+    },
+    allUsers: (root, args, { currentUser }) => { 
+      if (!currentUser) {
+        throw new AuthenticationError('Not authenticated!')
+      }
+      return User.find({})
     }
+  
   }
 }
 

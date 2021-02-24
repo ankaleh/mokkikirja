@@ -9,7 +9,8 @@ const typeDefs = gql`
         startDate: String!,
         endDate: String!,
         text: String!,
-        guests: [String]!
+        unidentifiedGuests: [String],
+        guests: [User]
     }
     extend type Query {
         postCount: Int!
@@ -21,7 +22,8 @@ const typeDefs = gql`
             startDate: String!,
             endDate: String!
             text: String!,
-            guests: [String]!
+            unidentifiedGuests: [String]
+            guests: [ID]
         ): Post,
         removePost(
           id: ID!
@@ -42,11 +44,29 @@ const resolvers = {
         console.log(post.validateSync().errors['startDate'])
         console.log(post.validateSync().errors['endDate'])
       }
+
+      const guests = post.guests //lista id:itä
+
       try {
         await post.save()
+        //lisätään vieraiden vieraskirjamerkintälistoihin:
+        /* guests.forEach(async id => {
+          try {
+            console.log('id: ', id)
+            const guest = await User.findById(id)
+            console.log(guest.name)
+            guest.posts = guest.posts.concat(post)
+            await guest.save()
+          } catch (e) {
+            console.log(e)
+          }
+          
+        }) */
+
+        //lisätään kirjoittajan eli currentUserin merkintöihin:
         currentUser.posts = currentUser.posts.concat(post)
-        await currentUser.save()
-        console.log('uusi merkintä tallennettu', post.startDate, post.endDate)
+        await currentUser.save() //tämä tarpeeton?
+        console.log('uusi merkintä tallennettu')
       } catch (error) {
         console.log('catchissa: tallentaminen ei onnistunut', error)
         throw new UserInputError(error.message, {
@@ -62,9 +82,26 @@ const resolvers = {
 
       try {
           const post = await Post.findById(args.id)
+
+          //poistetaan kirjoittajan merkinnöistä:
           const postIndex = await currentUser.posts.indexOf(post)
           await currentUser.posts.splice(postIndex, 1)
           await currentUser.save()
+
+          //poistetaan vieraiden merkinnöistä:
+          /* const guests = post.guests //lista id:itä
+          guests.forEach(async id => {
+            try {
+              const guest = await User.findById(id)
+              const postIndex = await guest.posts.indexOf(post)
+              await guest.posts.splice(postIndex, 1)
+              await guest.save()
+            } catch (e) {
+              console.log(e)
+            }
+            
+          }) */
+
           return Post.findByIdAndRemove(args.id)
         } catch (error) { 
           throw new UserInputError(error.message, {

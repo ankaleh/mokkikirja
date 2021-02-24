@@ -3,7 +3,7 @@ query {
         startDate
         endDate
         text
-        guests
+        unidentifiedGuests
         writtenBy {
             name
             id

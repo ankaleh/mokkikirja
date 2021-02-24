@@ -1,14 +1,15 @@
-mutation ($startDate: String!, $endDate: String!, $text: String!, $guests: [String]!){
+mutation ($startDate: String!, $endDate: String!, $text: String!, $unidentifiedGuests: [String], $guests: [ID]){
   addPost(
     startDate: $startDate,
     endDate: $endDate
     text: $text,
+    unidentifiedGuests: $unidentifiedGuests,
     guests: $guests
   ) {
     startDate
     endDate
     text
-    guests
+    unidentifiedGuests
     writtenBy {
       name
     }

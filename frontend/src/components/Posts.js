@@ -60,9 +60,9 @@ const Posts = (props) => {
                         
                         <Row>
                             <TextPrimary>
-                                {p.guests.length > 2 || p.guests[0].length > 9 || p.guests[1] > 9
-                                ? `${p.guests[0]}, ${p.guests[1]}...`
-                                : p.guests.reduce((prev, curr) => `${prev} ja ${curr}`)}
+                                {p.unidentifiedGuests.length > 2
+                                ? `${p.unidentifiedGuests[0]}, ${p.unidentifiedGuests[1]}...`
+                                : p.unidentifiedGuests.reduce((prev, curr) => `${prev} ja ${curr}`)}
                             </TextPrimary>
                         </Row>
                     </StyledPost>
