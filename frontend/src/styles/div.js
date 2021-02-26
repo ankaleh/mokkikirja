@@ -94,21 +94,8 @@ export const StyledTextContainer = styled.div`
     background: white;
     border-radius: 15px;
 `
-export const ErrorMessage = styled.div`
-    color: #bc5a45;
-    font: 15px Verdana, sans-serif;
-    background: #F7F7F7;
-    height: 30px;
-    border-bottom: 2px solid white;
-    padding: 5px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-`
 export const NotificationMessage = styled.div`
-    color: #618685;
     font: 15px Verdana, sans-serif;
     background: #F7F7F7;
     height: 30px;
@@ -121,7 +108,7 @@ export const NotificationMessage = styled.div`
 `
 export const Info = styled.div`
     padding: 20px;
-    border: 2px solid #bc5a45;
+    border: 2px solid #618685;
     background: white;
     width: 300px;
     height: 100px;
@@ -149,5 +136,19 @@ export const Borderline = styled.div`
     background: #bc5a45;
     width: 30px;
 `
+export const GuestsContainer = styled.div`
+    border: 2px solid lightgrey;
+    background: white;
+    width: 500px;
+    border-radius: 5px;
+    padding: 30px;
 
+    margin: 10px;
+
+    display: flex;
+    
+    flex-direction: column;
+    
+
+`
 

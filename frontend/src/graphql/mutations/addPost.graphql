@@ -13,5 +13,8 @@ mutation ($startDate: String!, $endDate: String!, $text: String!, $unidentifiedG
     writtenBy {
       name
     }
+    guests {
+      name
+    }
   }
 }

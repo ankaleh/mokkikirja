@@ -1,4 +1,5 @@
 import { ErrorMessage, NotificationMessage } from '../styles/div'
+import { InfoText, ErrorText } from '../styles/textStyles'
 import React from 'react'
 
 const Notification = ({ notification }) => {
@@ -9,15 +10,17 @@ const Notification = ({ notification }) => {
 
     if (notification.includes('Tapahtui virhe')) {
         return (
-            <ErrorMessage>
-            {notification}
-            </ErrorMessage>
+            <NotificationMessage>
+            <ErrorText>{notification}</ErrorText>
+            </NotificationMessage>
     
         )
     }
 
     return (
-        <NotificationMessage>{notification}</NotificationMessage>
+        <NotificationMessage>
+          <InfoText>{notification}</InfoText>  
+        </NotificationMessage>
     )
 }
     

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Row, Page, StyledTextContainer, Space } from '../styles/div'
-import { BlackText, InfoText, TextPrimary, TextSecondary } from '../styles/textStyles'
+import { BlackText, InfoText, TextPrimary, TextSecondary, ErrorText } from '../styles/textStyles'
 
 import format from 'date-fns/format'
 import Calendar from 'react-calendar';
@@ -88,7 +88,7 @@ const CustomCalendar = ({ checkDayRange, reservedDayRanges, selectedDayRange, da
         ? null
         : <InfoText>{`Valitsemasi päivät: ${format(selectedDayRange[0], 'dd.MM.yyyy')}-${format(selectedDayRange[1], 'dd.MM.yyyy')}`}</InfoText>}
         {datesNotAdded && selectedDayRange.length===0 
-        ? <InfoText>Päivämäärät vaaditaan.</InfoText>
+        ? <ErrorText>Päivämäärät vaaditaan.</ErrorText>
         : null} 
     </>
     )   

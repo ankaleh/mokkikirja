@@ -10,11 +10,12 @@ const typeDefs = gql`
         endDate: String!,
         text: String!,
         unidentifiedGuests: [String],
-        guests: [User]
+        guests: [User],
     }
     extend type Query {
         postCount: Int!
         allPosts: [Post!]!
+        guestsAndUnidentifiedGuests: [String]!
     }
 
     extend type Mutation {
@@ -125,7 +126,14 @@ const resolvers = {
     writtenBy: async (root, args, { currentUser }) => {
       const user = await User.findById(root.writtenBy)
       return user
+    },
+    guests: async (root, args, { currentUser }) => {
+      const guestsIds = root.guests
+      const usersInDatabase = await User.find({_id: {$in: guestsIds}})
+      //console.log(usersInDatabase)
+      return usersInDatabase
     }
+    
   }
 }
 

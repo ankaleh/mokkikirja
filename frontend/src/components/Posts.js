@@ -60,9 +60,7 @@ const Posts = (props) => {
                         
                         <Row>
                             <TextPrimary>
-                                {p.unidentifiedGuests.length > 2
-                                ? `${p.unidentifiedGuests[0]}, ${p.unidentifiedGuests[1]}...`
-                                : p.unidentifiedGuests.reduce((prev, curr) => `${prev} ja ${curr}`)}
+                                {`${p.guests.map(g => g.name).concat(p.unidentifiedGuests)[0]}...`}
                             </TextPrimary>
                         </Row>
                     </StyledPost>

@@ -21,8 +21,8 @@ const SignOut = (props) => {
         <Info>
           <InfoText>Haluatko varmasti kirjautua ulos?</InfoText>
             <Row>
-              <Button type='submit' onClick={handleClick} background='#bc5a45'>Kyllä</Button>
-              <Button type='submit' onClick={()=> history.goBack()} background='#bc5a45'>En</Button>
+              <Button type='submit' onClick={handleClick} background='#618685'>Kyllä</Button>
+              <Button type='submit' onClick={()=> history.goBack()} background='#618685'>En</Button>
             </Row>
         </Info>
       </Page>

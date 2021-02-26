@@ -14,6 +14,8 @@ const ALL_POSTS = loader('../graphql/queries/allPosts.graphql')
 
 const Post = ({ post, showNotification }) => { 
 
+    const allGuests = post.guests.map(g => g.name).concat(post.unidentifiedGuests)
+
     const [ removePost ] = useMutation(REMOVE_POST, {
         onError: (error) => {
             showNotification(`Tapahtui virhe: ${error&&error.graphQLErrors[0]?error.graphQLErrors[0].extensions.exception.errors:{}}`)
@@ -61,7 +63,7 @@ const Post = ({ post, showNotification }) => {
                 <TextSecondary>{post.text}</TextSecondary>
             </StyledTextContainer>
             
-            <Row><TextPrimary>{post.unidentifiedGuests.reduce((prev, curr) => `${prev}, ${curr}`)}</TextPrimary></Row>
+            <Row><TextPrimary>{allGuests.reduce((prev, curr) => `${prev}, ${curr}`)}</TextPrimary></Row>
             {data.me.id === post.writtenBy.id
             ? <Button background='lightgrey' height='40px' width='500px' onClick={(e) => handleClickRemove(e, post.id)}>Poista merkintä</Button>
             : null}

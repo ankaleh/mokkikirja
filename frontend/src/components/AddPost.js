@@ -6,8 +6,8 @@ import { useMutation, useApolloClient, useQuery } from '@apollo/client'
 
 import { Button } from '../styles/button'
 //import { Input } from '../styles/input'
-import { Column, Page, Row } from '../styles/div'
-import { BlackText, InfoText, TextPrimary, HeadingSecondary, TextSecondary } from '../styles/textStyles'
+import { Column, Page, Row, StyledTextContainer, StyledPost, GuestsContainer } from '../styles/div'
+import { BlackText, InfoText, TextPrimary, HeadingSecondary, TextSecondary, ErrorText } from '../styles/textStyles'
 
 
 
@@ -42,7 +42,7 @@ const AddPost = (props) => {
     const [datesNotAdded, setDatesNotAdded] = useState(false)
     const showWhenCalendarVisible = {display: calendarVisible ? '' : 'none'}
 
-    /* haetaan kaikki käyttäjät vierasvalikkoa varten: */
+    /* fetch all users for the form field guests: */
     useEffect(() => {
         if (allUsers.data) {
             setUsers(allUsers.data.allUsers)
@@ -57,17 +57,17 @@ const AddPost = (props) => {
     const onSubmit = async (values, { resetForm }) => {
         const { text, unidentifiedGuests, guests } = values;
         console.log('Tekstikenttiin kirjoitettiin: ', values); //values on olio, jolla kentät date, text, guests
-        const unidentifiedGuestsOnArray = unidentifiedGuests.split(',')
         if (selectedDayRange.length<2) {
             props.showNotification('Tapahtui virhe: Lisää päivämäärät!') 
             return
         }
+
         try {
             await addPost({ variables: {
                 startDate: format(selectedDayRange[0], 'yyyy-MM-dd'),
                 endDate: format(selectedDayRange[1], 'yyyy-MM-dd'),
                 text,
-                unidentifiedGuests: unidentifiedGuestsOnArray, //Formik!
+                unidentifiedGuests, 
                 guests: guests.map(u => u.id)
             }});
             resetForm({})
@@ -83,9 +83,20 @@ const AddPost = (props) => {
         text: yup
             .string()    
             .required('Teksti vaaditaan.'),
+        guests: yup
+            .array()
+            .when('unidentifiedGuests', {
+                is: unidentifiedGuests => unidentifiedGuests.length === 0,
+                then: yup.array().min(1, 'Lisää vähintään yksi vieras!')
+            }),
         unidentifiedGuests: yup
-            .string()
-            .required('Vieraiden nimet vaaditaan.')
+            .array()
+            .of(
+                yup.string()
+                .required('Lisää nimi tai paina Poista.') 
+                .min(2, 'Nimessä on oltava vähintään kaksi kirjainta.')
+            )
+                    
     })
 
     const checkDayRange = (dayRange) => {
@@ -116,25 +127,27 @@ const AddPost = (props) => {
             {selectedDayRange.length === 2 
                         ? <BlackText>{format(selectedDayRange[0], 'dd.MM.yyyy')} - {format(selectedDayRange[1], 'dd.MM.yyyy')}</BlackText>
                         : null }
-        <Formik initialValues={{text: '', unidentifiedGuests:[] /* '' */, guests: []}} 
+
+        <Formik initialValues={{text: '', unidentifiedGuests:[], guests: []}} 
             onSubmit={onSubmit} validationSchema={validationSchema}>
-                {({handleSubmit, values, handleChange}) => 
+                {({handleSubmit, values, handleChange, handleBlur, errors, touched}) => 
                     <form onSubmit={handleSubmit}>
                         <Column>
                         <FormikInput name='text' border='2px solid lightgrey' placeholder='Teksti' height='500px' width='500px'/>
                         
-                        <InputLabel id='select-guests'>Valitse vieraita mökin jäsenistä</InputLabel>
+                        {/* <InputLabel id='select-guests'>Lisää vieraiden nimet</InputLabel>  */}
+                        <GuestsContainer labelId='select-guests'>
                         <Select 
-                            labelId='select-guests'
                             displayEmpty
                             name='guests' 
                             value={values.guests}
                             onChange={handleChange}//* ({target}) => setSelectedUsers(target.value) 
+                            onBlur={handleBlur}
                             multiple
                            /*  input={<Input />}  */
                             renderValue={(selectedList) => {//selectedList on lista users-olioita,
                                 if (selectedList.length===0) {
-                                   return <TextSecondary>Valitse</TextSecondary>
+                                   return <TextSecondary>Valitse vieraita mökin jäsenistä</TextSecondary>
                                }
                                return (
                                 <div >
@@ -148,35 +161,70 @@ const AddPost = (props) => {
                         >
                          {users.map(u => <MenuItem key={u.id} value={u}>{u.name}</MenuItem>)/* palvelimelta haetuista käyttäjistä MenuItemeja, joita voi klikata */} 
                         </Select>
-
-                        <FormikInput name='unidentifiedGuests' border='2px solid lightgrey' placeholder='Vieraat' height='50px' width='500px'/>
-                        
-                        {/* <Select 
-                            labelId='select-unidentifiedGuests'
-                            displayEmpty
-                            name='unidentifiedGuests' 
-                            value={values.unidentifiedGuests}
-                            onChange={handleChange}
-                            
-                            multiple
-
-                            renderValue={(selectedList) => {
-                                
-                                if (selectedList.length===0) {
-                                   return <TextSecondary>Valitse</TextSecondary>
-                               }
-                               return (
-                                <div >
-                                    {selectedList.map((user) => (
-                                        <Chip key={user.id} label={user.name} />
-                                    )
-                                    )}
+                        {errors.guests &&
+                    touched.guests &&
+                        <ErrorText>
+                            {errors.guests}
+                        </ErrorText>}
+                        <FieldArray
+                            onBlur={handleBlur}
+                            name='unidentifiedGuests' //tämä yhdistää lomakkeen values-kenttään unidentifiedGuests
+                            render={arrayHelpers => (
+                            <div>
+                            {values.unidentifiedGuests && values.unidentifiedGuests.length > 0 
+                            ? (values.unidentifiedGuests.map((guest, index) => (
+                                <div key={index}>
+                                <FormikInput type='input' name={`unidentifiedGuests.${index}`} />
+                                    <Button
+                                        background='lightgrey'
+                                        type='button'
+                                        onClick={() => {
+                                            props.showNotification(`Vieraslistasta on nyt poistettu ${guest}`)
+                                            arrayHelpers.remove(index)}} // remove a guest from the unidentifiedGuests list
+                                     >
+                                        Poista
+                                    </Button>
+                                    
+                                    <Button
+                                        background='lightgrey'
+                                        type='button'
+                                        onClick={() => {
+                                            props.showNotification(`Vieraslistaan on nyt lisätty ${guest}`)
+                                            arrayHelpers.insert(index, '')}} // insert an empty string at a position
+                                    >
+                                    Lisää seuraava
+                                    </Button>
                                 </div>
-                                )
-                            }}
-                        >
-                         <MenuItem value={values.unidentifiedGuests}><FormikInput name='unidentifiedGuests' border='2px solid lightgrey' placeholder='Vieraat' height='50px' width='500px'/></MenuItem>) 
-                        </Select> */}
+                            ))
+                            ) 
+                            : /* show this button when unidentifiedGuests list is empty: */
+                            (
+                                <Button background='lightgrey' type="button" onClick={() => arrayHelpers.push('')}>
+                                 Lisää muita vieraita
+                                </Button>
+                            )}
+                 <div>
+                   <Button background='lightgrey' type="submit" onClick={() => {
+                       if (values.guests.length!=0 && values.unidentifiedGuests.length!=0) {
+                        props.showNotification(`${values.guests.map(g => g.name)
+                            .reduce((prev, curr) => `${prev}, ${curr}`)}, ${values.unidentifiedGuests.reduce((prev, curr) => `${prev}, ${curr}`)}`)
+                        } else if (values.unidentifiedGuests.length!=0) {
+                            props.showNotification(`${values.unidentifiedGuests
+                                .reduce((prev, curr) => `${prev}, ${curr}`)}`)
+                        } else if (values.guests.length!=0) {
+                            props.showNotification(`${values.guests.map(g => g.name)
+                                .reduce((prev, curr) => `${prev}, ${curr}`)}`)
+                        }
+                    }}
+                       
+                    >
+                       Näytä lisäämäsi vieraat
+                   </Button>
+                 </div>
+               </div>
+             )} 
+           /> 
+           </GuestsContainer>
 
                         <Button type='submit' background='lightgrey' height='40px' width='500px'>Lähetä</Button>
                         </Column>

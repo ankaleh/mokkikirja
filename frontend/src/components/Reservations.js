@@ -61,18 +61,23 @@ const Reservations = (props) => {
 
     const handleClickBook = async () => {
         console.log('startDate: ', selectedDayRange[0], 'endDate: ', selectedDayRange[1])
-        try {
-            await addReservation({ 
-                variables: { 
-                    startDate: format(selectedDayRange[0], 'yyyy-MM-dd'),
-                    endDate: format(selectedDayRange[1], 'yyyy-MM-dd')
-                }
-            })
-            props.showNotification('Varaus on nyt tehty! Näet nyt varauksen tällä sivulla.')
-            
-        } catch(e) {
-            props.showNotification(`Tapahtui virhe: ${e}`)
+        if (selectedDayRange.length<2) {
+            props.showNotification('Tapahtui virhe: lisää saapumis- ja lähtöpäivä!')
+        } else {
+            try {
+                await addReservation({ 
+                    variables: { 
+                        startDate: format(selectedDayRange[0], 'yyyy-MM-dd'),
+                        endDate: format(selectedDayRange[1], 'yyyy-MM-dd')
+                    }
+                })
+                props.showNotification('Varaus on nyt tehty! Näet sen sivulla.')
+                
+            } catch(e) {
+                props.showNotification(`Tapahtui virhe: ${e}`)
+            }
         }
+        
     }
 
     //tarkistaa, sisältääkö kalenterista valittu ajanjakso varattuja päiviä

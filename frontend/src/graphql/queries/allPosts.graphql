@@ -9,6 +9,9 @@ query {
             id
         }
         id
+        guests {
+            name
+        }
     
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useField } from 'formik';
-import { InfoText, BlackText } from '../styles/textStyles'
+import { InfoText, BlackText, ErrorText } from '../styles/textStyles'
 import { Text, Input } from '../styles/input'
 
 const FormikInput = ({ name, ...props }) => {
@@ -12,14 +12,15 @@ const FormikInput = ({ name, ...props }) => {
       return (<>
       <Input
         onChange={({target}) => {
-          console.log('target: ', target) 
-          helpers.setValue(target.value)}}
+          //console.log('target: ', target) 
+          helpers.setValue(target.value)
+          /* console.log('field.value: ',field.value) */}}
         onBlur={() => helpers.setTouched(true)}
         value={field.value}
         error={showError}
         {...props}
       />
-     {showError && <InfoText>{meta.error}</InfoText>}
+     {showError && <ErrorText>{meta.error}</ErrorText>}
       
       
     </>)
@@ -35,7 +36,7 @@ const FormikInput = ({ name, ...props }) => {
           error={showError}
           {...props}
         />
-        {showError && <InfoText>{meta.error}</InfoText>}
+        {showError && <ErrorText>{meta.error}</ErrorText>}
       </>
     );
   };

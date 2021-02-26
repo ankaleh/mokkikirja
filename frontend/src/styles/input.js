@@ -23,7 +23,7 @@ export const Text = styled.textarea.attrs(props => ({
 }))`
     background: white;
     font: 1em Helvetica, sans-serif;
-    padding: 10px;
+    padding: 30px;
     border: ${props => props.border};
     border-radius: 5px;
     width: ${props => props.width};

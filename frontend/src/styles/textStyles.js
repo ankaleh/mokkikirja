@@ -41,6 +41,10 @@ export const LinkTextColored = styled(Link)`
 //##034f84 nätti violetti
 export const InfoText = styled.span`
     font: 15px Verdana, sans-serif;
+    color: #618685
+`
+export const ErrorText = styled.span`
+    font: 15px Verdana, sans-serif;
     color: #bc5a45
 `
 

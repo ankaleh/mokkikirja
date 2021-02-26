@@ -65,9 +65,9 @@ const App = () => {
       <Navigation>
 
       </Navigation>
-      <Margin>
-
-      </Margin>
+      {notification
+        ? <Notification notification={notification}/>
+        : <Margin> </Margin>}
     </Router>
   )
 }
