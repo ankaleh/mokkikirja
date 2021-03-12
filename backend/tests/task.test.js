@@ -5,7 +5,7 @@ const Task = require('../models/taskModel')
 const mockUser = { name: 'Mikko Mökkeilijä', username: 'mikmök', password: 'salasana' }
 const mockTask = { description: 'Ikkunoiden pesu', done: false }
 
-describe('test Task Model', () => {
+describe('Test Task Model', () => {
   let user
   beforeAll(async () => {
     await mongoose.connect(process.env.MONGO_URL,

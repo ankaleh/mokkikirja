@@ -5,7 +5,7 @@ const { createTestClient } = require('apollo-server-testing')
 
 const mockData = { name: 'Mikko Mökkeilijä', username: 'mikmök', password: 'salasana' }
 
-describe('test User model', () => {
+describe('Test User model', () => {
   beforeAll(async () => {
     //@shelf/jest-mongodb sets the process.env.MONGO_URL
     await mongoose.connect(process.env.MONGO_URL,
@@ -49,7 +49,7 @@ describe('test User model', () => {
 
 })
 
-describe('test server', () => {
+describe('Test server', () => {
   let server
   beforeAll(async () => {
     //@shelf/jest-mongodb sets the process.env.MONGO_URL
@@ -69,13 +69,13 @@ describe('test server', () => {
     expect(response.errors).toBeUndefined()
 
   })
-  
+
   afterAll(async () => {
     await User.deleteMany({})
     await mongoose.connection.close()
   })
 
-  /* it('create user', async () => {
+  it('create user with non-unique username fails', async () => {
         const { query, mutate } = createTestClient(server); //argumentiksi testi-ApolloServer
         const CREATE_USER = `
             mutation {
@@ -88,11 +88,11 @@ describe('test server', () => {
         `
         let response = await mutate({ mutation: CREATE_USER })
 
-        expect(response.errors).toBeUndefined();
+        expect(response.errors).toBeDefined();
         //console.log(response)
-        expect(response.data.createUser).toEqual({ name: 'Mikko Mökkeilijä', username: 'mikmök' });
+        
     })
- */
+ 
   it('login', async () => {
     const { query, mutate } = createTestClient(server)
     const LOGIN = `
@@ -106,7 +106,7 @@ describe('test server', () => {
           }
         `
     let response = await mutate({ mutation: LOGIN })
-    console.log(response)
+    //console.log(response)
     expect(response.errors).toBeUndefined()
   })
 

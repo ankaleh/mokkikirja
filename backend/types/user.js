@@ -1,4 +1,4 @@
-const { UserInputError, gql } = require('apollo-server')
+const { UserInputError, gql, AuthenticationError } = require('apollo-server')
 const User = require('../models/userModel')
 
 const bqrypt = require('bcrypt')
@@ -63,23 +63,24 @@ const resolvers = {
       if ( !(userLoggingIn && passwordCorrect) ) {
         throw new UserInputError('Wrong credentials!')
       }
-      console.log('login: ', userLoggingIn.username, userLoggingIn._id)
+      //console.log('login: ', userLoggingIn.username, userLoggingIn._id)
       const userForToken = { username: userLoggingIn.username, id: userLoggingIn._id }
-      console.log(`token: "bearer ${jwt.sign(userForToken, secret)}"`)
-      return { value: jwt.sign(userForToken, secret) } //palautetaan skeemassa määritetyn Token-tyypin kenttä value
+      //console.log(`token: "bearer ${jwt.sign(userForToken, secret)}"`)
+      return { value: jwt.sign(userForToken, secret, /* { expiresIn: 1200 } */) } //palautetaan skeemassa määritetyn Token-tyypin kenttä value
     }
+
   },
   Query: {
     me: (root, args, { currentUser }) => {
       return currentUser
     },
-    allUsers: (root, args, { currentUser }) => { 
+    allUsers: (root, args, { currentUser }) => {
       if (!currentUser) {
         throw new AuthenticationError('Not authenticated!')
       }
       return User.find({})
     }
-  
+
   }
 }
 

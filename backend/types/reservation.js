@@ -30,14 +30,14 @@ const resolvers = {
       }
       const reservation = new Reservation({ ...args, reservedBy: currentUser } )
       console.log('startDate: ', reservation.startDate, 'endDate: ', reservation.endDate)
-      
+
       if (reservation.startDate instanceof Date && reservation.endDate instanceof Date) {
         console.log('uusi varaus luotu')
       } else {
         console.log(reservation.validateSync().errors['startDate'])
         console.log(reservation.validateSync().errors['endDate'])
       }
-  
+
       try {
         await reservation.save()
         currentUser.reservations = currentUser.reservations.concat(reservation)
@@ -51,26 +51,26 @@ const resolvers = {
       }
       return reservation
     },
-    removeReservation: async (root, args, { currentUser }) => { 
-        if (!currentUser) {
-            throw new AuthenticationError('Not authenticated!')
-        }
-        try {
-          const reservation = await Reservation.findById(args.id)
-          const resIndex = await currentUser.reservations.indexOf(reservation)
-          await currentUser.reservations.splice(resIndex, 1) //poistaa yhden alkion annetussa indeksissä
-          await currentUser.save()
-          return Reservation.findByIdAndRemove(args.id)
-          } catch (error) {
-            throw new UserInputError(error.message, {
-              invalidArgs: args,
-            })
-          }
-    } 
-  
+    removeReservation: async (root, args, { currentUser }) => {
+      if (!currentUser) {
+        throw new AuthenticationError('Not authenticated!')
+      }
+      try {
+        const reservation = await Reservation.findById(args.id)
+        const resIndex = await currentUser.reservations.indexOf(reservation)
+        await currentUser.reservations.splice(resIndex, 1) //poistaa yhden alkion annetussa indeksissä
+        await currentUser.save()
+        return Reservation.findByIdAndRemove(args.id)
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
+    }
+
   },
   Query: {
-    allReservations: (root, args, { currentUser }) => { 
+    allReservations: (root, args, { currentUser }) => {
       if (!currentUser) {
         throw new AuthenticationError('Not authenticated backend.postissa!')
       }
@@ -78,7 +78,7 @@ const resolvers = {
     }
   },
   Reservation: {
-    reservedBy: async (root, args, { currentUser }) => {
+    reservedBy: async (root) => {
       const user = await User.findById(root.reservedBy)
       return user
     }

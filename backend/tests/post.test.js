@@ -3,9 +3,9 @@ const User = require('../models/userModel')
 const Post = require('../models/postModel')
 
 const mockUser = { name: 'Mikko Mökkeilijä', username: 'mikmök', password: 'salasana' }
-const mockPost = { text: 'Ihana päivä mökillä!', date: '21-01-2021', guests: ['Maija', 'Mikko'] }
+const mockPost = { text: 'Ihana päivä mökillä!', startDate: new Date(2021, 3, 10), endDate: new Date(2021, 3, 12), unidentifiedGuests: ['Maija', 'Mikko'] }
 
-describe('test Post Model', () => {
+describe('Test Post Model', () => {
   let user
   beforeAll(async () => {
     await mongoose.connect(process.env.MONGO_URL,
@@ -34,14 +34,15 @@ describe('test Post Model', () => {
     const savedPost = await validPost.save()
     expect(savedPost._id).toBeDefined()
     expect(savedPost.text).toBe(mockPost.text)
-    expect(savedPost.date).toBe(mockPost.date)
+    expect(savedPost.startDate).toBe(mockPost.startDate)
+    expect(savedPost.endDate).toBe(mockPost.endDate)
     expect(savedPost.writtenBy).toBe(user)
-    expect(savedPost.guests).toEqual(expect.arrayContaining(mockPost.guests))
+    expect(savedPost.unidentifiedGuests).toEqual(expect.arrayContaining(mockPost.unidentifiedGuests))
   })
 
   it('create post without required field fails', async () => {
     const postWithoutRequiredField = new Post(
-      { date: '21-01-2021', guests: ['Maija', 'Mikko'], writtenBy: user })
+      { text: 'Ihana päivä mökillä!', unidentifiedGuests: ['Maija', 'Mikko'], writtenBy: user })
     let validationError
     try {
       await postWithoutRequiredField.save()
@@ -49,7 +50,8 @@ describe('test Post Model', () => {
       validationError = error
     }
     expect(validationError).toBeInstanceOf(mongoose.Error.ValidationError)
-    expect(validationError.errors.text).toBeDefined()
+    expect(validationError.errors.startDate).toBeDefined()
+    expect(validationError.errors.endDate).toBeDefined()
   })
 })
 

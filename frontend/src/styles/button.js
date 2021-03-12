@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 export const Button = styled.button.attrs(props => ({
-    width: props.width,
-    height: props.height,
-    background: props.background
+  width: props.width,
+  height: props.height,
+  background: props.background
 }))`
     background: ${props => props.background};
     font: 1em Verdana, sans-serif;

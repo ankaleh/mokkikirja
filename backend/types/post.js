@@ -38,7 +38,7 @@ const resolvers = {
         throw new AuthenticationError('Not authenticated backend.postissa!')
       }
       const post = new Post({ ...args, writtenBy: currentUser } )
-      
+
       if (post.startDate instanceof Date && post.endDate instanceof Date) {
         console.log('uusi merkintä luotu', post.text)
       } else {
@@ -61,7 +61,7 @@ const resolvers = {
           } catch (e) {
             console.log(e)
           }
-          
+
         }) */
 
         //lisätään kirjoittajan eli currentUserin merkintöihin:
@@ -76,21 +76,21 @@ const resolvers = {
       }
       return post
     },
-    removePost: async (root, args, { currentUser }) => { 
+    removePost: async (root, args, { currentUser }) => {
       if (!currentUser) {
-          throw new AuthenticationError('Not authenticated!')
+        throw new AuthenticationError('Not authenticated!')
       }
 
       try {
-          const post = await Post.findById(args.id)
+        const post = await Post.findById(args.id)
 
-          //poistetaan kirjoittajan merkinnöistä:
-          const postIndex = await currentUser.posts.indexOf(post)
-          await currentUser.posts.splice(postIndex, 1)
-          await currentUser.save()
+        //poistetaan kirjoittajan merkinnöistä:
+        const postIndex = await currentUser.posts.indexOf(post)
+        await currentUser.posts.splice(postIndex, 1)
+        await currentUser.save()
 
-          //poistetaan vieraiden merkinnöistä:
-          /* const guests = post.guests //lista id:itä
+        //poistetaan vieraiden merkinnöistä:
+        /* const guests = post.guests //lista id:itä
           guests.forEach(async id => {
             try {
               const guest = await User.findById(id)
@@ -100,13 +100,13 @@ const resolvers = {
             } catch (e) {
               console.log(e)
             }
-            
+
           }) */
 
-          return Post.findByIdAndRemove(args.id)
-        } catch (error) { 
-          throw new UserInputError(error.message, {
-            invalidArgs: args,
+        return Post.findByIdAndRemove(args.id)
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
         })
       }
     }
@@ -129,11 +129,11 @@ const resolvers = {
     },
     guests: async (root, args, { currentUser }) => {
       const guestsIds = root.guests
-      const usersInDatabase = await User.find({_id: {$in: guestsIds}})
+      const usersInDatabase = await User.find({ _id: { $in: guestsIds } })
       //console.log(usersInDatabase)
       return usersInDatabase
     }
-    
+
   }
 }
 

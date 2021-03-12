@@ -6,8 +6,8 @@ const schema = new mongoose.Schema({
     required: true
   },
   endDate: {
-      type: Date,
-      required: true
+    type: Date,
+    required: true
   },
   reservedBy: {
     type: mongoose.Schema.Types.ObjectId,

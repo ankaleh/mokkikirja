@@ -1,18 +1,18 @@
 import React from 'react'
-import { useField } from 'formik';
-import { InfoText, BlackText, ErrorText } from '../styles/textStyles'
+import { useField } from 'formik'
+import { ErrorText } from '../styles/textStyles'
 import { Text, Input } from '../styles/input'
 
 const FormikInput = ({ name, ...props }) => {
-    const [field, meta, helpers] = useField(name);
-    const showError = meta.touched && meta.error;
-    
-    if (props.type==='input') {
-      
-      return (<>
+  const [field, meta, helpers] = useField(name)
+  const showError = meta.touched && meta.error
+
+  if (props.type==='input' || props.type === 'password') {
+
+    return (<>
       <Input
-        onChange={({target}) => {
-          //console.log('target: ', target) 
+        onChange={({ target }) => {
+          //console.log('target: ', target)
           helpers.setValue(target.value)
           /* console.log('field.value: ',field.value) */}}
         onBlur={() => helpers.setTouched(true)}
@@ -20,26 +20,25 @@ const FormikInput = ({ name, ...props }) => {
         error={showError}
         {...props}
       />
-     {showError && <ErrorText>{meta.error}</ErrorText>}
-      
-      
-    </>)
-    }
-  
-    return (
-      <>
-        <Text
-          onChange={({target}) => {
-          helpers.setValue(target.value)}}
-          onBlur={() => helpers.setTouched(true)}
-          value={field.value}
-          error={showError}
-          {...props}
-        />
-        {showError && <ErrorText>{meta.error}</ErrorText>}
-      </>
-    );
-  };
-  export default FormikInput;
+      {showError && <ErrorText>{meta.error}</ErrorText>}
 
-  
+
+    </>)
+  }
+
+  return (
+    <>
+      <Text
+        onChange={({ target }) => {
+          helpers.setValue(target.value)}}
+        onBlur={() => helpers.setTouched(true)}
+        value={field.value}
+        error={showError}
+        {...props}
+      />
+      {showError && <ErrorText>{meta.error}</ErrorText>}
+    </>
+  )
+}
+export default FormikInput
+

@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 export const Input = styled.input.attrs(props => ({
-    width: props.width,
-    height: props.height,
-    border: props.border
+  width: props.width,
+  height: props.height,
+  border: props.border
 }))`
     background: white;
     font: 1em Helvetica, sans-serif;
@@ -17,9 +17,9 @@ export const Input = styled.input.attrs(props => ({
 //border: 2px solid #bc5a45;
 
 export const Text = styled.textarea.attrs(props => ({
-    border: props.border,
-    width: props.width,
-    height: props.height
+  border: props.border,
+  width: props.width,
+  height: props.height
 }))`
     background: white;
     font: 1em Helvetica, sans-serif;

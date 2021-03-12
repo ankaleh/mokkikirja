@@ -18,21 +18,22 @@ const createServer = async (mongoUri) => {
   await mongoose.connect(mongoUri,
     { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false })
     .then(() => {
-      console.log('Yhdistetty tietokantaan.')
+      console.log('Yhdistetty (testi)tietokantaan.')
     })
     .catch((error) => {
-      console.log('Virhe yhdistettäessä testitietokantaan: ', error.message)
+      console.log('Virhe yhdistettäessä (testi)tietokantaan: ', error.message)
     })
+
   const Query = gql`
     type Query {
         _empty: String
     }
-`
+  `
   const Mutation = gql`
     type Mutation {
         _empty: String
     }
-`
+  `
   const schema = makeExecutableSchema({
     typeDefs: [ task.typeDefs, post.typeDefs, user.typeDefs, reservation.typeDefs, Query, Mutation ],
     resolvers: merge(user.resolvers, post.resolvers, task.resolvers, reservation.resolvers),

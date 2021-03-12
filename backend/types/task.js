@@ -1,5 +1,4 @@
 const { UserInputError, AuthenticationError, gql } = require('apollo-server')
-const taskModel = require('../models/taskModel')
 const Task = require('../models/taskModel')
 const User = require('../models/userModel')
 
@@ -70,19 +69,18 @@ const resolvers = {
       }
       return task
     },
-    removeTask: async (root, args, { currentUser }) => { 
+    removeTask: async (root, args, { currentUser }) => {
       if (!currentUser) {
-          throw new AuthenticationError('Not authenticated!')
-      }
-      try {
-          const task = await Task.findById(args.id)
-          const taskIndex = await currentUser.tasks.indexOf(task)
-          await currentUser.tasks.splice(taskIndex, 1)
-          await currentUser.save()
-          return Task.findByIdAndRemove(args.id)
-        } catch (error) { 
-          throw new UserInputError(error.message, {
-            invalidArgs: args,
+        throw new AuthenticationError('Not authenticated!')
+      } try {
+        const task = await Task.findById(args.id)
+        const taskIndex = await currentUser.tasks.indexOf(task)
+        await currentUser.tasks.splice(taskIndex, 1)
+        await currentUser.save()
+        return Task.findByIdAndRemove(args.id)
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
         })
       }
     }
