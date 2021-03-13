@@ -1,7 +1,15 @@
-const { ApolloServer, makeExecutableSchema, gql } = require('apollo-server')
+
+const { ApolloServer } = require('apollo-server-express')
+const expressPlayground = require('graphql-playground-middleware-express')
+  .default
+
+const { makeExecutableSchema } = require('apollo-server')
+const merge  = require('lodash/merge')
+
+
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
-const merge  = require('lodash/merge')
+
 
 const post = require('./types/post')
 const task = require('./types/task')
@@ -52,13 +60,13 @@ const createServer = async (mongoUri) => {
         const currentUser = await User.findById(decodedToken.id)
         return { currentUser } //contextin kentäksi
       }
+    },
 
-    }
   })
 
-  return server
+  //app.use(express.static('build'))
+  
+  return app
 }
-
-
 
 module.exports.createServer = createServer
