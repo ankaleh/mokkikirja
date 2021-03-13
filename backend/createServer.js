@@ -65,7 +65,7 @@ const createServer = async (mongoUri) => {
     cors: true,
   })
 
-  app.use(express.static('build'))
+  app.use(express.static(path.resolve('backend','../build')))
   //app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
   server.applyMiddleware({ app })
   return app
