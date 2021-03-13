@@ -65,6 +65,7 @@ const createServer = async (mongoUri) => {
   })
 
   //app.use(express.static('build'))
+  app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
   
   return app
 }
