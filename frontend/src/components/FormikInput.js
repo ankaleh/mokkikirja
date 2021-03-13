@@ -12,9 +12,7 @@ const FormikInput = ({ name, ...props }) => {
     return (<>
       <Input
         onChange={({ target }) => {
-          //console.log('target: ', target)
-          helpers.setValue(target.value)
-          /* console.log('field.value: ',field.value) */}}
+          helpers.setValue(target.value)}}
         onBlur={() => helpers.setTouched(true)}
         value={field.value}
         error={showError}

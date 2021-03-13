@@ -66,7 +66,6 @@ const AddPost = (props) => {
 
   const onSubmit = async (values, { resetForm }) => {
     const { text, unidentifiedGuests, guests } = values
-    console.log('Tekstikenttiin kirjoitettiin: ', values) //values on olio, jolla kentät date, text, guests
     if (selectedDayRange.length<2) {
       props.showNotification('Tapahtui virhe: Lisää päivämäärät!')
       return
@@ -226,7 +225,6 @@ const AddPost = (props) => {
                               .reduce((prev, curr) => `${prev}, ${curr}`)}`)
                           }
                         }}
-
                         >
                        Näytä lisäämäsi vieraat
                         </Button>

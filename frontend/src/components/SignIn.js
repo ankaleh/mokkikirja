@@ -32,7 +32,6 @@ const SignIn = (props) => {
 
   const onSubmit = async (values) => {
     const { username, password } = values
-    console.log('Tekstikenttiin kirjoitettiin: ', username, password) //values on olio, jolla kentät username ja password
     try {
       await signIn(username, password) // kirjaudutaan
     } catch (e) {

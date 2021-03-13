@@ -1,11 +1,12 @@
-
+const express = require('express')
 const { ApolloServer } = require('apollo-server-express')
-const expressPlayground = require('graphql-playground-middleware-express')
-  .default
+/* const expressPlayground = require('graphql-playground-middleware-express')
+  .default */
 
 const { makeExecutableSchema } = require('apollo-server')
 const merge  = require('lodash/merge')
 
+const app = express()
 
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
@@ -32,12 +33,12 @@ const createServer = async (mongoUri) => {
       console.log('Virhe yhdistettäessä (testi)tietokantaan: ', error.message)
     })
 
-  const Query = gql`
+  const Query =`
     type Query {
         _empty: String
     }
   `
-  const Mutation = gql`
+  const Mutation = `
     type Mutation {
         _empty: String
     }
@@ -61,12 +62,12 @@ const createServer = async (mongoUri) => {
         return { currentUser } //contextin kentäksi
       }
     },
-
+    cors: true,
   })
 
-  //app.use(express.static('build'))
+  app.use(express.static('build'))
   //app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
-  
+  server.applyMiddleware({ app })
   return app
 }
 

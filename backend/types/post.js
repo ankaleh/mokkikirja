@@ -66,8 +66,7 @@ const resolvers = {
 
         //lisätään kirjoittajan eli currentUserin merkintöihin:
         currentUser.posts = currentUser.posts.concat(post)
-        await currentUser.save() //tämä tarpeeton?
-        console.log('uusi merkintä tallennettu')
+        await currentUser.save() 
       } catch (error) {
         console.log('catchissa: tallentaminen ei onnistunut', error)
         throw new UserInputError(error.message, {
@@ -130,7 +129,6 @@ const resolvers = {
     guests: async (root, args, { currentUser }) => {
       const guestsIds = root.guests
       const usersInDatabase = await User.find({ _id: { $in: guestsIds } })
-      //console.log(usersInDatabase)
       return usersInDatabase
     }
 

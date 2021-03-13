@@ -32,7 +32,6 @@ const Posts = (props) => {
           <Row>
             <TextPrimary>
               {`${p.guests.concat(p.unidentifiedGuests)[0]}...`}
-              {/* {`${p.guests.map(g => g.name).concat(p.unidentifiedGuests)[0]}...`} */}
             </TextPrimary>
           </Row>
         </StyledPost>

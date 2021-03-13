@@ -51,7 +51,6 @@ const AddTask = (props) => {
 
   const onSubmit = async (values, { resetForm }) => {
     const { description } = values
-    console.log('Tekstikenttiin kirjoitettiin: ', values) //values on olio, jolla kentät date, text, guests
 
     try {
       await addTask({ variables: {

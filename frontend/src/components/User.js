@@ -25,7 +25,6 @@ const User = (props) => {
       <div>Käyttäjätietoja haetaan</div>
     )
   }
-  console.log('User Userissa: ', user)
   return (
     <div>
       {user
