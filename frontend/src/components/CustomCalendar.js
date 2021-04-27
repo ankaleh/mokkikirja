@@ -5,6 +5,7 @@ import format from 'date-fns/format'
 import Calendar from 'react-calendar'
 import eachDayOfInterval from 'date-fns/eachDayOfInterval'
 import 'react-calendar/dist/Calendar.css'
+import { Column } from '../styles/div'
 
 const CustomCalendar = ({ checkDayRange, reservedDayRanges, selectedDayRange, datesNotAdded }) => {
 
@@ -27,7 +28,7 @@ const CustomCalendar = ({ checkDayRange, reservedDayRanges, selectedDayRange, da
   }
 
   return (
-    <>
+    <Column>
       <Calendar
         onChange={(dayRange) => checkDayRange(dayRange)}
         selectRange={true}
@@ -36,11 +37,11 @@ const CustomCalendar = ({ checkDayRange, reservedDayRanges, selectedDayRange, da
       />
       {selectedDayRange.length<2
         ? null
-        : <InfoText>{`Valitsemasi päivät: ${format(selectedDayRange[0], 'dd.MM.yyyy')}-${format(selectedDayRange[1], 'dd.MM.yyyy')}`}</InfoText>}
+        : <InfoText>{`Valitsemasi päivät: ${format(selectedDayRange[0], 'dd.MM.yyyy')} - ${format(selectedDayRange[1], 'dd.MM.yyyy')}`}</InfoText>}
       {datesNotAdded && selectedDayRange.length===0
         ? <ErrorText>Päivämäärät vaaditaan.</ErrorText>
         : null}
-    </>
+    </Column>
   )
 
 }

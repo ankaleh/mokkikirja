@@ -1,7 +1,7 @@
 const express = require('express')
 const { ApolloServer } = require('apollo-server-express')
-/* const expressPlayground = require('graphql-playground-middleware-express')
-  .default */
+const expressPlayground = require('graphql-playground-middleware-express')
+  .default
 
 const path = require('path')
 
@@ -66,8 +66,7 @@ const createServer = async (mongoUri) => {
     },
     cors: true,
   })
-
-  //app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
+  app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
   server.applyMiddleware({ app })
   return app
 }

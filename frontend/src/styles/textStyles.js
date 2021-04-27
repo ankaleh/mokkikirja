@@ -37,21 +37,21 @@ export const LinkText = styled(Link)`
     font-weight: bold;
     padding-right: 10px;
 `
-//#FFFFFF
 export const LinkTextColored = styled(Link)`
     font: 15px Helvetica, Sans-Serif;
     color: black;
     font-weight: bold;
     
 `
-//##034f84 nätti violetti
 export const InfoText = styled.span`
-    font: 15px Helvetica, Sans-Serif;
-    color: #618685
+    font: 20px Helvetica, Sans-Serif;
+    color: #618685;
+    font-weight: bold;
 `
 export const ErrorText = styled.span`
     font: 15px Helvetica, Sans-Serif;
-    color: #bc5a45
+    color: #bc5a45;
+    font-weight: bold;
 `
 
 export const HeaderInImage = styled.span.attrs(props => ({
@@ -86,10 +86,6 @@ export const LiInImage = styled.li.attrs(props => ({
     left: 60%;
     right: 0%;
 `
-//tekstin marginaali vaikuttaa taustakuvan korkeuteen
-
-//background: rgba(0, 0, 0, 0.5);
-//padding: 10px;
 
 
 

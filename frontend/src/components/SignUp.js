@@ -22,8 +22,8 @@ const SignUpForm = ({ onSubmit }) => {
           <BlackText>Rekisteröidy antamalla nimesi ja valitsemalla käyttäjätunnus ja salasana.</BlackText>
           <FormikInput type='input' name='name' placeholder='Nimi' border='2px solid lightgrey' height='40px' width='400px'/>
           <FormikInput type='input' name='username' placeholder='Käyttäjätunnus' border='2px solid lightgrey' height='40px' width='400px'/>
-          <FormikInput type='input' name='password' placeholder='Salasana' border='2px solid lightgrey' height='40px' width='400px'/>
-          <FormikInput type='input' name='passwordConf' placeholder='Salasana uudestaan' border='2px solid lightgrey' height='40px' width='400px'/>
+          <FormikInput type='password' name='password' placeholder='Salasana' border='2px solid lightgrey' height='40px' width='400px'/>
+          <FormikInput type='password' name='passwordConf' placeholder='Salasana uudestaan' border='2px solid lightgrey' height='40px' width='400px'/>
           <Button type='submit' background='lightgrey' height='40px' width='400px'>Rekisteröidy</Button>
         </Column>
       </form>
@@ -66,15 +66,15 @@ const SignUp = (props) => {
       .string(),
     username: yup
       .string()
-      .min(6).max(30)
+      .min(6, 'Käyttäjänimen on oltava vähintään 6 merkkiä pitkä.').max(30, 'Käyttäjänimen on oltava vähintään 6 merkkiä ja korkeintaan 30 merkkiä pitkä.')
       .required('Käyttäjänimi vaaditaan.'),
     password: yup
       .string()
-      .min(7).max(50)
+      .min(7, 'Salasanan on oltava vähintään 7 merkkiä pitkä.').max(50, 'Salasanan on oltava vähintään 7 merkkiä ja korkeintaan 50 merkkiä pitkä.')
       .required('Salasana vaaditaan.'),
     passwordConf: yup
       .string()
-      .oneOf([yup.ref('password'), null])
+      .oneOf([yup.ref('password'), null], 'Tähän kenttään kirjoittamasi salasana ei ole sama kuin edelliseen kenttään kirjoittamasi salasana. Ole hyvä ja yritä uudestaan!')
       .required('Salasanan varmistus vaaditaan.'),
   })
   //Formikin sisällä (lapsena) on funktio, joka saa parametrikseen Formikin funktion, joka puolestaan annetaan

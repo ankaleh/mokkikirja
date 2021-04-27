@@ -19,8 +19,6 @@ const FormikInput = ({ name, ...props }) => {
         {...props}
       />
       {showError && <ErrorText>{meta.error}</ErrorText>}
-
-
     </>)
   }
 

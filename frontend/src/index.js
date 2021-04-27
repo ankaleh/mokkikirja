@@ -19,7 +19,7 @@ const authLink = setContext((_, { headers }) => {
 })
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'http://localhost:4000/graphql', //'/graphql'
 })
 
 /* const logoutLink = onError(({ networkError }) => {

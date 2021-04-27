@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { Formik, FieldArray } from 'formik'
+import { Formik } from 'formik'
 import * as yup from 'yup'
 import { loader } from 'graphql.macro'
 import { useMutation, useQuery } from '@apollo/client'
 
 import { Button } from '../styles/button'
-//import { Input } from '../styles/input'
-import { Column, GuestsContainer } from '../styles/div'
-import { BlackText, InfoText, HeadingSecondary, TextSecondary, ErrorText } from '../styles/textStyles'
+import { Column } from '../styles/div'
+import { BlackText, InfoText, HeadingSecondary } from '../styles/textStyles'
 
-
-
-import FormikInput from './FormikInput'
 import CustomCalendar from './CustomCalendar'
 import format from 'date-fns/format'
 import '../styles/calendar.css'
-import Select from '@material-ui/core/Select'
-import { MenuItem } from '@material-ui/core'
-import Chip from '@material-ui/core/Chip'
-//import InputLabel from '@material-ui/core/InputLabel'
-//import Input from '@material-ui/core/Input'
+import AddTextAndGuestsForm from './AddTextAndGuestsForm'
 
 const ADD_POST = loader('../graphql/mutations/addPost.graphql')
 const ALL_POSTS = loader('../graphql/queries/allPosts.graphql')
@@ -140,103 +132,7 @@ const AddPost = (props) => {
       <Formik initialValues={{ text: '', unidentifiedGuests:[], guests: [] }}
         onSubmit={onSubmit} validationSchema={validationSchema}>
         {({ handleSubmit, values, handleChange, handleBlur, errors, touched }) =>
-          <form onSubmit={handleSubmit}>
-            <Column>
-              <FormikInput name='text' border='2px solid lightgrey' placeholder='Teksti' height='500px' width='500px'/>
-
-              {/* <InputLabel id='select-guests'>Lisää vieraiden nimet</InputLabel>  */}
-              <GuestsContainer labelId='select-guests'>
-                <Select
-                  displayEmpty
-                  name='guests'
-                  value={values.guests}
-                  onChange={handleChange}//* ({target}) => setSelectedUsers(target.value)
-                  onBlur={handleBlur}
-                  multiple
-                  /*  input={<Input />}  */
-                  renderValue={(selectedList) => {//selectedList on lista users-olioita,
-                    if (selectedList.length===0) {
-                      return <TextSecondary>Valitse vieraita mökin jäsenistä</TextSecondary>
-                    }
-                    return (
-                      <div >
-                        {selectedList.map((user) => (
-                          <Chip key={user.id} label={user.name} />//jotka renderöidään Chipeinä täällä
-                        )
-                        )}
-                      </div>
-                    )
-                  }}
-                >
-                  {users.map(u => <MenuItem key={u.id} value={u}>{u.name}</MenuItem>)/* palvelimelta haetuista käyttäjistä MenuItemeja, joita voi klikata */}
-                </Select>
-                {errors.guests &&
-                    touched.guests &&
-                        <ErrorText>
-                          {errors.guests}
-                        </ErrorText>}
-                <FieldArray
-                  onBlur={handleBlur}
-                  name='unidentifiedGuests' //tämä yhdistää lomakkeen values-kenttään unidentifiedGuests
-                  render={arrayHelpers => (
-                    <div>
-                      {values.unidentifiedGuests && values.unidentifiedGuests.length > 0
-                        ? (values.unidentifiedGuests.map((guest, index) => (
-                          <div key={index}>
-                            <FormikInput type='input' name={`unidentifiedGuests.${index}`} />
-                            <Button
-                              background='lightgrey'
-                              type='button'
-                              onClick={() => {
-                                props.showNotification(`Vieraslistasta on nyt poistettu ${guest}`)
-                                arrayHelpers.remove(index)}} // remove a guest from the unidentifiedGuests list
-                            >
-                                        Poista
-                            </Button>
-
-                            <Button
-                              background='lightgrey'
-                              type='button'
-                              onClick={() => {
-                                props.showNotification(`Vieraslistaan on nyt lisätty ${guest}`)
-                                arrayHelpers.insert(index, '')}} // insert an empty string at a position
-                            >
-                                    Lisää seuraava
-                            </Button>
-                          </div>
-                        ))
-                        )
-                        : /* show this button when unidentifiedGuests list is empty: */
-                        (
-                          <Button background='lightgrey' type="button" onClick={() => arrayHelpers.push('')}>
-                                 Lisää muita vieraita
-                          </Button>
-                        )}
-                      <div>
-                        <Button background='lightgrey' type="submit" onClick={() => {
-                          if (values.guests.length!==0 && values.unidentifiedGuests.length!==0) {
-                            props.showNotification(`${values.guests.map(g => g.name)
-                              .reduce((prev, curr) => `${prev}, ${curr}`)}, ${values.unidentifiedGuests.reduce((prev, curr) => `${prev}, ${curr}`)}`)
-                          } else if (values.unidentifiedGuests.length!==0) {
-                            props.showNotification(`${values.unidentifiedGuests
-                              .reduce((prev, curr) => `${prev}, ${curr}`)}`)
-                          } else if (values.guests.length!==0) {
-                            props.showNotification(`${values.guests.map(g => g.name)
-                              .reduce((prev, curr) => `${prev}, ${curr}`)}`)
-                          }
-                        }}
-                        >
-                       Näytä lisäämäsi vieraat
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                />
-              </GuestsContainer>
-
-              <Button type='submit' background='lightgrey' height='40px' width='500px'>Lähetä</Button>
-            </Column>
-          </form>}
+          <AddTextAndGuestsForm showNotification={props.showNotification} handleSubmit={handleSubmit} values={values} handleChange={handleChange} handleBlur={handleBlur} errors={errors} touched={touched} users={users}/>}
       </Formik>
     </Column>
 
