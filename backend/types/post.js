@@ -66,7 +66,7 @@ const resolvers = {
 
         //lisätään kirjoittajan eli currentUserin merkintöihin:
         currentUser.posts = currentUser.posts.concat(post)
-        await currentUser.save() 
+        await currentUser.save()
       } catch (error) {
         console.log('catchissa: tallentaminen ei onnistunut', error)
         throw new UserInputError(error.message, {

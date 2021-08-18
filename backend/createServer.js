@@ -3,7 +3,7 @@ const { ApolloServer } = require('apollo-server-express')
 const expressPlayground = require('graphql-playground-middleware-express')
   .default
 
-const path = require('path')
+//const path = require('path')
 
 const { makeExecutableSchema } = require('apollo-server')
 const merge  = require('lodash/merge')
@@ -29,10 +29,10 @@ const createServer = async (mongoUri) => {
   await mongoose.connect(mongoUri,
     { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false })
     .then(() => {
-      console.log('Yhdistetty (testi)tietokantaan.')
+      console.log('Yhdistetty tietokantaan.')
     })
     .catch((error) => {
-      console.log('Virhe yhdistettäessä (testi)tietokantaan: ', error.message)
+      console.log('Virhe yhdistettäessä tietokantaan: ', error.message)
     })
 
   const Query =`
@@ -56,10 +56,8 @@ const createServer = async (mongoUri) => {
     // authiin asetetaan pyynnön Authorization-otsakkeen tiedot eli token,
     //ja jos headerina ei tule validia tokenia, kysely vastaa "null":
       const auth = req ? req.headers.authorization : null
-      //console.log(req.headers.authorization)
       if (auth && auth.toLowerCase().startsWith('bearer')) {
         const decodedToken = jwt.verify(auth.substring(7), secret)
-        //console.log('decodedToken: ', decodedToken)
         const currentUser = await User.findById(decodedToken.id)
         return { currentUser } //contextin kentäksi
       }
