@@ -36,8 +36,8 @@ const Posts = (props) => {
           </Row>
         </StyledPost>
       </LinkTextColored>
-
-    )}
+    )
+  }
 
   useEffect(() => {
     if (allPosts.data) {
@@ -71,7 +71,6 @@ const Posts = (props) => {
 
   const onSearchInput = (event) => {
     setSearchInput(event.target.value)
-
   }
 
   return (
@@ -99,9 +98,7 @@ const Posts = (props) => {
         </Column>
         <Borderline></Borderline>
         <AddPost showNotification={props.showNotification}/>
-
       </Page>
-
     </div>
   )
 

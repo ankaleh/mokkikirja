@@ -64,8 +64,6 @@ const Post = ({ post, showNotification }) => {
       }
     } })
 
-
-
   const client = useApolloClient()
   const data = client.readQuery({ query: ME })
   const history = useHistory()
@@ -128,12 +126,8 @@ const Post = ({ post, showNotification }) => {
             </Dialog>
           </div>
           : null}
-
       </Page>
-
-
     </div>
   )
-
 }
 export default Post
