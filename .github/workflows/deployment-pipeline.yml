@@ -18,7 +18,7 @@ jobs:
           node-version: '12.x'
 
       - name: Npm install 
-        run: cd ./backend && npm ci && cd ./frontend && npm ci
+        run: cd ./backend && npm ci && cd ../frontend && npm ci
 
       - name: Build frontend
         run: cd ./frontend && npm run build
