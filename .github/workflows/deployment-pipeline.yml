@@ -23,12 +23,8 @@ jobs:
       - name: Build frontend
         run: cd ./frontend && npm run build
 
-      - name: Only run this if file .backend/build/index.html exists
+      - name: Only run this if file ./backend/build/index.html exists
         run: '(test -f ./backend/build/index.html && echo ./backend/build/index.html exists) || echo ./backend/build/index.html does not exist, skipping step'
-
-      - name: Deploy to Heroku
-        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
-        uses: akhileshns/heroku-deploy@v3.12.12
 
       - name: Deploy to Heroku
         if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
