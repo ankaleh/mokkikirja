@@ -35,9 +35,9 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "mokkikirja" #Must be unique in Heroku
+          heroku_app_name: "meidanmokki" #Must be unique in Heroku
           heroku_email: ${{secrets.MAIL}}
-          healthcheck: "https://mokkikirja.herokuapp.com/health"
+          healthcheck: "https://meidanmokki.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
           
