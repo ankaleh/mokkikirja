@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
@@ -18,9 +19,13 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
-const httpLink = new HttpLink({
-  uri: 'http://localhost:4000/graphql', //'/graphql'
-})
+const httpLink = process.env.NODE_ENV==='development'
+  ?  new HttpLink({
+    uri: 'http://localhost:4000/graphql'
+  })
+  : new HttpLink({
+    uri: '/graphql'
+  })
 
 /* const logoutLink = onError(({ networkError }) => {
   if (networkError.statusCode === 401) {

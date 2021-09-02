@@ -15,7 +15,7 @@ const typeDefs = gql`
     extend type Mutation {
         addReservation(
             startDate: String!,
-            endDate: String!
+            endDate: String!,
         ): Reservation,
         removeReservation(
             id:ID!

@@ -6,5 +6,9 @@ mutation ($startDate: String!, $endDate: String!){
     endDate
     startDate
     id
+    reservedBy {
+      id
+      name
+    }
   }
 }

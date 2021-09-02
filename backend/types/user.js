@@ -3,11 +3,11 @@ const User = require('../models/userModel')
 
 const bqrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-require('dotenv').config()
+const config = require('../config')
 
-const secret = process.env.NODE_ENV === 'test'
+const secret = config.NODE_ENV === 'test'
   ? 'kukkanen'
-  : process.env.SECRET
+  : config.SECRET
 
 
 const typeDefs = gql`

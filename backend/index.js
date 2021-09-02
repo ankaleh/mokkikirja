@@ -1,7 +1,7 @@
-require('dotenv').config()
+const config = require('./config')
 const { createServer }  = require('./createServer')
-const port = process.env.PORT || 4000
-createServer(process.env.MONGODB_URI)
+const port = config.PORT
+createServer(config.MONGODB_URI)
   .then(server => server.listen({ port: port }, () =>
-    console.log(`🚀 Server ready on port ${port}!`)))
+    console.log(`🚀 Development server ready on port ${port}!`)))
 

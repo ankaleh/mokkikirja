@@ -3,7 +3,7 @@ const { ApolloServer } = require('apollo-server-express')
 const expressPlayground = require('graphql-playground-middleware-express')
   .default
 
-//const path = require('path')
+const path = require('path')
 
 const { makeExecutableSchema } = require('apollo-server')
 const merge  = require('lodash/merge')
@@ -13,7 +13,6 @@ const app = express()
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 
-
 const post = require('./types/post')
 const task = require('./types/task')
 const user = require('./types/user')
@@ -21,8 +20,8 @@ const reservation = require('./types/reservation')
 
 const User = require('./models/userModel')
 
-require('dotenv').config()
-const secret = process.env.SECRET
+const config = require('./config')
+const secret = config.SECRET
 
 const createServer = async (mongoUri) => {
 
@@ -64,7 +63,20 @@ const createServer = async (mongoUri) => {
     },
     cors: true,
   })
-  app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
+
+  if (config.environment==='development') {
+    app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
+
+  } else {
+    const BUILD_PATH = path.resolve(__dirname, './build')
+    app.use(express.static(BUILD_PATH))
+    app.get('/health', (req, res) => {
+      res.send('ok')
+    })
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
+    })
+  }
   server.applyMiddleware({ app })
   return app
 }

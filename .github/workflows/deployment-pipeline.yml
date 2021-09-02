@@ -1,0 +1,43 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize] # the workflow will run when a PR into main is opened or updated
+
+jobs:
+  deployment_pipeline:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2 #koodi käyttöön
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Npm install 
+        run: cd ./backend && npm ci && cd ./frontend && npm ci
+
+      - name: Build frontend
+        run: cd ./frontend && npm run build
+
+      - name: Only run this if file ./build/index.html exists
+        run: '(test -f ./frontend/build/index.html && echo ./frontend/build/index.html exists) || echo ./build/index.html does not exist, skipping step'
+
+      - name: Deploy to Heroku
+        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
+        uses: akhileshns/heroku-deploy@v3.12.12
+
+      - name: Deploy to Heroku
+        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "mokkikirja" #Must be unique in Heroku
+          heroku_email: ${{secrets.MAIL}}
+          healthcheck: "https://mokkikirja.herokuapp.com/health"
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
+          

@@ -37,7 +37,7 @@ const Reservations = (props) => {
         store.writeQuery({
           query: ALL_RESERVATIONS,
           data: {
-            allReservations: [...dataInStore.allReservations, response.data.addReservation]
+            allReservations: [...dataInStore.allReservations, response.data.addReservation ]
           }
         })
       }
@@ -61,7 +61,6 @@ const Reservations = (props) => {
             allReservations: dataInStore.allReservations.filter(p => p.id !== response.data.removeReservation.id)
           }
         })
-
       }
 
     } })
