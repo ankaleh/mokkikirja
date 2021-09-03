@@ -6,7 +6,7 @@
   "scripts": {
     "build:ui": "cd ./frontend && npm run build && cp -r build ../backend/ && rm -rf build",
     "start": "NODE_ENV=production node app.js",
-    "dev:backend": "NODE_ENV=development && cd ./backend && nodemon index.js",
+    "dev:backend": "cd ./backend && NODE_ENV=development nodemon index.js",
     "dev:frontend": "cd ./frontend && npm start",
     "test": "NODE_ENV=test jest --verbose --runInBand",
     "lint": "eslint .",
