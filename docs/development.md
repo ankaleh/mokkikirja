@@ -5,17 +5,23 @@ Molempien tulee olla asennettuina, jotta sovellus voi toimia.
 
 1) Kloonaa repositorio:
 
-`git clone git@github.com:ankaleh/mokkikirja.git`
+    `git clone git@github.com:ankaleh/mokkikirja.git`
 
-2) Projekti käyttää kolmea ympäristömuuttujaa, MONGODB_URI, SECRET JA PORT. Luo projektin backend-kansioon `.env`-niminen tiedosto ja lisää sinne nämä kolme muuttujaa arvoineen. Aseta MONGODB_URIn arvoksi haluamasi tietokannan osoite ja SECRET-muuttujan arvoksi mikä tahansa satunnainen merkkijono. PORT-muuttujan arvon on oltava 4000.
+2) Projekti käyttää kolmea ympäristömuuttujaa, MONGODB_URI, SECRET JA PORT. Luo projektin backend-kansioon `.env`-niminen tiedosto ja lisää sinne nämä kolme muuttujaa arvoineen: 
 
-2) Asenna projektin riippuvudet ajamalla sekä projektin juurikansiossa että sen `frontend`-kansiossa komento
+    MONGODB_URI = [arvoksi tietokannan osoite]
 
-`npm install`
+    SECRET = [arvoksi mikä tahansa satunnainen merkkijono]
 
-3) Tämän jälkeen käytössäsi ovat projektin juurihakemistossa ajettavat komennot
+    PORT = [arvon on oltava 4000].
 
-- `npm run dev:backend`: käynnistää backendin sovelluskehitystilassa ja tarjoilee osoitteesta http://localhost:4000/playground [Apollo Serverin Playgroundin](https://www.apollographql.com/docs/apollo-server/testing/build-run-queries/#graphql-playground)
+3) Asenna projektin riippuvudet ajamalla sekä projektin juurikansiossa että sen `frontend`-kansiossa komento
+
+    `npm install`
+
+4) Tämän jälkeen käytössäsi ovat projektin juurihakemistossa ajettavat komennot
+
+- `npm run dev:backend`: käynnistää backendin sovelluskehitystilassa ja tarjoilee [Apollo Serverin Playgroundin](https://www.apollographql.com/docs/apollo-server/testing/build-run-queries/#graphql-playground) osoitteesta `http://localhost:4000/playground`
 
 - `npm run dev:frontend`: käynnistää frontendin sovelluskehitystilassa ja tarjoilee sen osoitteesta `http://localhost:3000`
 
