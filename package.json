@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development nodemon index.js",
+    "build:ui": "cd ./frontend && npm run build && cp -r build ../backend/ && rm -rf build",
+    "start": "NODE_ENV=production node app.js",
+    "dev:backend": "NODE_ENV=development && cd ./backend && nodemon index.js",
+    "dev:frontend": "cd ./frontend && npm start",
     "test": "NODE_ENV=test jest --verbose --runInBand",
     "lint": "eslint .",
     "lintfix": "eslint --fix"
@@ -30,7 +32,6 @@
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.3.4",
     "eslint": "^7.32.0",
-    "jest": "^26.6.3",
     "nodemon": "^2.0.12"
   },
   "jest": {
