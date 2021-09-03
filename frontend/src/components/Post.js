@@ -102,7 +102,7 @@ const Post = ({ post, showNotification }) => {
 
         <Row><TextPrimary>{allGuests.reduce((prev, curr) => `${prev}, ${curr}`)}</TextPrimary></Row>
         {data.me.id === post.writtenBy.id
-          ? <div><Button background='lightgrey' height='40px' width='500px' onClick={handleClickOpen}>Poista merkintä</Button>
+          ? <div><Button background='lightgrey' /* height='40px' */ width='500px' onClick={handleClickOpen}>Poista merkintä</Button>
             <Dialog
               open={dialogOpen}
               onClose={handleClose}

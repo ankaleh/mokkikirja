@@ -5,6 +5,10 @@ export const Button = styled.button.attrs(props => ({
   height: props.height,
   background: props.background
 }))`
+    @media (max-width: 700px) {
+      max-width: 120px;
+    }
+
     background: ${props => props.background};
     font: 1em Verdana, sans-serif;
     color: white;
@@ -15,5 +19,7 @@ export const Button = styled.button.attrs(props => ({
     margin-right: 5px;
     width: ${props => props.width};
     height: ${props => props.height};
+
+    
 `
 //background: #bc5a45;

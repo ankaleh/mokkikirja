@@ -38,6 +38,9 @@ export const Navigation = styled.div`
     align-items: center;
 `
 export const AccountInfo = styled.div`
+    @media (max-width: 700px) {
+        flex-direction: column;
+    }
     background: #8d9db6;
     padding: 10px;
     border-bottom: 2px solid white;
@@ -46,16 +49,19 @@ export const AccountInfo = styled.div`
 
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     justify-content: flex-end;
+    flex-wrap: wrap;
     align-items: center;
-
 `
 export const Page = styled.div.attrs(props => ({
   flexDirection: props.flexDirection,
   justifyContent: props.justifyContent,
   alignItems: props.alignItmes
 }))`
+    @media (max-width: 700px) {
+        flex-direction: column;
+    }
+
     background: #F7F7F7;
     
     padding: 50px;
@@ -71,6 +77,7 @@ export const BackgroundImage = styled.div.attrs(props => ({
   height: props.height,
   backgroundImage: props.backgroundImage,
 }))`
+
     background-image: url(${props => props.backgroundImage});
     background-position: center;
     background-repeat: no-repeat;
@@ -84,6 +91,9 @@ export const BackgroundImage = styled.div.attrs(props => ({
 `
 
 export const StyledPost = styled.div`
+    @media (max-width: 700px) {
+        max-width: 200px;
+    }  
     border: 2px solid lightgrey;
     background: white;
     
@@ -106,6 +116,9 @@ export const StyledPost = styled.div`
 `
 //#618685 vihreä
 export const StyledTask = styled.div`
+    @media (max-width: 700px) {
+        max-width: 200px;
+    }  
     border: 2px solid  lightgrey;
     background: white;
     width: 300px;
@@ -156,7 +169,6 @@ export const Column = styled.div`
     flex-direction: column;
     align-items: center;
     text-align: center;
-    
 `
 
 export const Borderline = styled.div`
@@ -165,6 +177,10 @@ export const Borderline = styled.div`
     margin: 20px;
 `
 export const GuestsContainer = styled.div`
+    @media (max-width: 768px) {
+        width: 200px;
+    }
+    
     border: 2px solid lightgrey;
     background: white;
     width: 500px;

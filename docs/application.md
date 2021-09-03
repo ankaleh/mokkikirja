@@ -1,4 +1,4 @@
-# Mokkikirja-sovelluksen käyttöohje
+# Mökkikirja-sovelluksen käyttöohje
 
 Sovelluksen osoite on https://mokkikirja.herokuapp.com/.
 

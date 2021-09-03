@@ -2,13 +2,18 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const HeadingSecondary = styled.h1`
+    @media (max-width: 700px) {
+        font: bold 15px Helvetica, Sans-Serif;
+    }   
     font: 30px Helvetica, Sans-Serif;
 `
 export const HeadingPrimary = styled.span`
-        color: #FFFFFF; 
-        font:  50px Helvetica, Sans-Serif; 
-
-        padding: 20px;
+    @media (max-width: 700px) {
+        font: bold 15px Helvetica, Sans-Serif;
+    }   
+    color: #FFFFFF; 
+    font:  50px Helvetica, Sans-Serif; 
+    padding: 20px;
 `
 export const TextPrimary = styled.span`
     font: 20px Helvetica, Sans-Serif;
@@ -20,9 +25,14 @@ export const TextSecondary = styled.span`
     padding: 10px;
 `
 export const WhiteText = styled.span`
-    font: 15px Helvetica, Sans-Serif;
+    @media (max-width: 700px) {
+        font: bold 15px Helvetica, Sans-Serif;
+    }  
+    font: 20px Helvetica, Sans-Serif;
     color: #FFFFFF;
     font-weight: bold;
+    padding-right: 25px;
+    padding-left: 25px;
 `
 export const BlackText = styled.span`
     font: 15px Helvetica, Sans-Serif;
@@ -32,10 +42,14 @@ export const BlackText = styled.span`
     line-height: 1.6;
 `
 export const LinkText = styled(Link)`
-    font: 15px Helvetica, Sans-Serif;
+    @media (max-width: 700px) {
+        font: bold 15px Helvetica, Sans-Serif;
+    }        
+    font: 20px Helvetica, Sans-Serif;
     color: #FFFFFF;
     font-weight: bold;
-    padding-right: 10px;
+    padding-right: 25px;
+    padding-left: 25px;
 `
 export const LinkTextColored = styled(Link)`
     font: 15px Helvetica, Sans-Serif;
@@ -57,6 +71,9 @@ export const ErrorText = styled.span`
 export const HeaderInImage = styled.span.attrs(props => ({
   bottom: props.bottom,
 }))`
+    @media (max-width: 700px) {
+        font: bold 30px Helvetica, Sans-Serif;
+    }
     color: #FFFFFF; 
     font: bold 60px Helvetica, Sans-Serif; 
     letter-spacing: 2px;  
@@ -70,6 +87,10 @@ export const HeaderInImage = styled.span.attrs(props => ({
 export const LiInImage = styled.li.attrs(props => ({
   bottom: props.bottom,
 }))`
+    @media (max-width: 700px) {
+        font: bold 15px Helvetica, Sans-Serif;
+    }    
+
     color: #FFFFFF; 
     font: bold 30px Helvetica, Sans-Serif; 
     letter-spacing: 2px;  

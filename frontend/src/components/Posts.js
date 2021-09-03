@@ -100,6 +100,7 @@ const Posts = (props) => {
         <AddPost showNotification={props.showNotification}/>
       </Page>
     </div>
+
   )
 
 }

@@ -8,7 +8,7 @@ Sovellus on Helsingin yliopiston [Full Stack open -kurssin](https://fullstackope
 
 ### Sovelluksen dokumentaatio
 
-[Kehitystyön käyttöohjeet](./docs/development.md)
+[Kehitystyön ohjeet](./docs/development.md)
 
 [Sovelluksen käyttöohjeet](./docs/application.md)
 

@@ -31,7 +31,6 @@ const User = (props) => {
         ?   <div>
           <AccountInfo>
             <Row>
-              <LinkText to={'/varaukset'}>Varaa mökki</LinkText>
               <Column>
                 <WhiteText>{user.name}</WhiteText>
                 <LinkText to='/kirjaudu-ulos'>Kirjaudu ulos</LinkText>
@@ -41,6 +40,7 @@ const User = (props) => {
           <Navigation>
             <LinkText to='/tyopaivakirja'>Työpäiväkirja</LinkText>
             <LinkText to='/vieraskirja'>Vieraskirja</LinkText>
+            <LinkText to={'/varaukset'}>Varaa mökki</LinkText>
           </Navigation>
         </div>
         :   <div>

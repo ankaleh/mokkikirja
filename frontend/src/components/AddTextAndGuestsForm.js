@@ -109,7 +109,7 @@ const AddTextAndGuestsForm = ({ showNotification, handleSubmit, values, handleCh
             />
           </GuestsContainer>
 
-          <Button type='submit' background='lightgrey' height='40px' width='500px'>Lähetä</Button>
+          <Button type='submit' background='lightgrey' height='40px' width='500px' >Lähetä</Button>
         </Column>
       </form>
     </div>

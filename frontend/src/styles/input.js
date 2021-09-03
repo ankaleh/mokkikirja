@@ -5,6 +5,9 @@ export const Input = styled.input.attrs(props => ({
   height: props.height,
   border: props.border
 }))`
+    @media (max-width: 700px) {
+      width: 200px;
+    }
     background: white;
     font: 1em Helvetica, sans-serif;
     padding: 10px;
@@ -21,6 +24,9 @@ export const Text = styled.textarea.attrs(props => ({
   width: props.width,
   height: props.height
 }))`
+    @media (max-width: 700px) {
+      width: 200px;
+    }
     background: white;
     font: 1em Helvetica, sans-serif;
     padding: 30px;
