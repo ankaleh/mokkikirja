@@ -2,7 +2,7 @@
 
 Sovellus tarjoaa vieraskirjan, työpäiväkirjan ja varausjärjestelmän suvun yhteiselle mökille. 
 
-Kehitystyö alkoi Helsingin yliopiston [Full Stack open -kurssin](https://fullstackopen.com/) vapaaehtoisena [harjoitustyönä](https://fullstackopen.com/osa0/yleista#full-stack-harjoitustyo), ja se on käynnissä [Herokussa](https://mokkikirja.herokuapp.com/).
+Kehitystyö alkoi Helsingin yliopiston [Full Stack open -kurssin](https://fullstackopen.com/) vapaaehtoisena [harjoitustyönä](https://fullstackopen.com/osa0/yleista#full-stack-harjoitustyo) ja jatkuu edelleen. Sovellus on käynnissä [Herokussa](https://mokkikirja.herokuapp.com/).
 
 ## Dokumentaatio
 
