@@ -6,15 +6,18 @@ mutation ($startDate: String!, $endDate: String!, $text: String!, $unidentifiedG
     unidentifiedGuests: $unidentifiedGuests,
     guests: $guests
   ) {
-    startDate
-    endDate
-    text
-    unidentifiedGuests
-    writtenBy {
-      name
-    }
-    guests {
-      name
-    }
+      startDate
+      endDate
+      text
+      unidentifiedGuests
+      writtenBy {
+        name
+        id
+      }
+      id
+      guests {
+        name
+        id
+      }
   }
 }

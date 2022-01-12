@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { loader } from 'graphql.macro'
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery, useApolloClient } from '@apollo/client'
 
 import { Button } from '../styles/button'
 import { Column } from '../styles/div'
@@ -13,13 +13,18 @@ import format from 'date-fns/format'
 import '../styles/calendar.css'
 import AddTextAndGuestsForm from './AddTextAndGuestsForm'
 
+const ME = loader('../graphql/queries/me.graphql')
 const ADD_POST = loader('../graphql/mutations/addPost.graphql')
 const ALL_POSTS = loader('../graphql/queries/allPosts.graphql')
-const All_USERS = loader('../graphql/queries/allUsers.graphql')
+const ALL_USERS = loader('../graphql/queries/allUsers.graphql')
+const ALL_RESERVATIONS = loader('../graphql/queries/allReservations.graphql')
 
 const AddPost = (props) => {
 
-  const allUsers = useQuery(All_USERS)
+  const client = useApolloClient()
+  const me = client.readQuery({ query: ME })
+  const allUsers = useQuery(ALL_USERS)
+  const allReservations = useQuery(ALL_RESERVATIONS)
   const [users, setUsers] = useState([])
   const [addPost /* , result */ ] = useMutation(ADD_POST, {
     onError: (error) => {
@@ -31,7 +36,7 @@ const AddPost = (props) => {
         store.writeQuery({
           query: ALL_POSTS,
           data: {
-            allPosts: [...dataInStore.allPosts, response.data.addPost]
+            allPosts: [...dataInStore.allPosts, response.data.addPost, response.data.addPost]
           }
         })
       }
@@ -40,6 +45,7 @@ const AddPost = (props) => {
   })
 
   const [calendarVisible, setCalendarVisible] = useState(false)
+  const [myPastReservations, setMyPastReservations] = useState([])
   const [selectedDayRange, setSelectedDayRange] = useState([])
   const [datesNotAdded, setDatesNotAdded] = useState(false)
   const showWhenCalendarVisible = { display: calendarVisible ? '' : 'none' }
@@ -53,7 +59,13 @@ const AddPost = (props) => {
       console.log('Virheviesti palvelimelta: ', allUsers.error.message)
       props.showNotification(`Tapahtui virhe: ${allUsers.error.message}`)
     }
-  }, [allUsers])
+    if (allReservations.data) {
+      setMyPastReservations(allReservations.data.allReservations.filter(r => r.reservedBy.id === me.me.id && Date.parse(r.startDate) < Date.now()))
+    }
+    if (allReservations.error) {
+      props.showNotification(`Tapahtui virhe: ${allReservations.error.message}`)
+    }
+  }, [allUsers, allReservations])
 
 
   const onSubmit = async (values, { resetForm }) => {
@@ -101,6 +113,7 @@ const AddPost = (props) => {
   })
 
   const checkDayRange = (dayRange) => {
+    console.log(dayRange)
     setSelectedDayRange(dayRange)
   }
 
@@ -111,6 +124,7 @@ const AddPost = (props) => {
   return (
     <Column>
       <HeadingSecondary>Kirjoita vieraskirjaan</HeadingSecondary>
+      <BlackText>Lisää vierailun ajankohta kalenterista tai valitse varauksesi ajankohta.</BlackText>
       <div style={showWhenCalendarVisible}>
         <CustomCalendar datesNotAdded={datesNotAdded} checkDayRange={checkDayRange} reservedDayRanges={[]} selectedDayRange={selectedDayRange}/>
       </div>
@@ -122,11 +136,26 @@ const AddPost = (props) => {
         setCalendarVisible(!calendarVisible)
       }}>{calendarVisible
           ? 'Piilota kalenteri'
-          : 'Näytä kalenteri lisätäksesi vierailun ajankohdan'
+          : 'Näytä kalenteri'
         }</Button>
 
+      {myPastReservations.length!==0
+        ? <Column>
+          {myPastReservations.map(r =>
+            <Column key={r.id}>
+              <Button type='submit' background='lightgrey' onClick={() => {
+                checkDayRange([new Date(r.startDate), new Date(r.endDate)])
+                setCalendarVisible(false)
+              }}>{format(new Date(r.startDate), 'dd.MM.yyyy')} - {format(new Date(r.endDate), 'dd.MM.yyyy')}
+              </Button>
+            </Column>
+          )
+          }
+        </Column>
+        : null}
+
       {selectedDayRange.length === 2
-        ? <BlackText>{format(selectedDayRange[0], 'dd.MM.yyyy')} - {format(selectedDayRange[1], 'dd.MM.yyyy')}</BlackText>
+        ? <HeadingSecondary>{format(selectedDayRange[0], 'dd.MM.yyyy')} - {format(selectedDayRange[1], 'dd.MM.yyyy')}</HeadingSecondary>
         : null }
 
       <Formik initialValues={{ text: '', unidentifiedGuests:[], guests: [] }}

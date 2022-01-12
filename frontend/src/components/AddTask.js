@@ -38,6 +38,7 @@ const AddTask = (props) => {
     update: (store, response) => {
       const dataInStore = store.readQuery({ query: ALL_TASKS })
       if (dataInStore) {
+        console.log(response.data.addTask)
         store.writeQuery({
           query: ALL_TASKS,
           data: {
