@@ -21,7 +21,7 @@ Molempien tulee olla asennettuina, jotta sovellus voi toimia.
 
 4) Tämän jälkeen käytössäsi ovat projektin juurihakemistossa ajettavat komennot
 
-- `npm run dev:backend`: käynnistää backendin sovelluskehitystilassa ja tarjoilee [Apollo Serverin Playgroundin](https://www.apollographql.com/docs/apollo-server/testing/build-run-queries/#graphql-playground) osoitteesta `http://localhost:4000/playground`
+- `npm run dev:backend`: käynnistää backendin sovelluskehitystilassa ja tarjoilee [Apollo Serverin Playgroundin](https://www.apollographql.com/docs/apollo-server/testing/build-run-queries/#graphql-playground) osoitteesta [http://localhost:4000/playground](http://localhost:4000/playground)
 
 - `npm run dev:frontend`: käynnistää frontendin sovelluskehitystilassa ja tarjoilee sen osoitteesta `http://localhost:3000`
 

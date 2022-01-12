@@ -10,6 +10,8 @@ Sovellus on Helsingin yliopiston [Full Stack open -kurssin](https://fullstackope
 
 [Kehitystyön ohjeet](./docs/development.md)
 
+[Kehitys, kun sovellusta ajetaan Docker-konteissa](./docs/dev-docker.md)
+
 [Sovelluksen käyttöohjeet](./docs/application.md)
 
 ### Projektin dokumentaatio
