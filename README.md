@@ -2,7 +2,7 @@
 
 Sovellus tarjoaa vieraskirjan, työpäiväkirjan ja varausjärjestelmän suvun yhteiselle mökille. 
 
-Sovellus on Helsingin yliopiston [Full Stack open -kurssin](https://fullstackopen.com/) vapaaehtoinen [harjoitustyö](https://fullstackopen.com/osa0/yleista#full-stack-harjoitustyo), ja se on käynnissä [Herokussa](https://mokkikirja.herokuapp.com/).
+Kehitystyö alkoi Helsingin yliopiston [Full Stack open -kurssin](https://fullstackopen.com/) vapaaehtoisena [harjoitustyönä](https://fullstackopen.com/osa0/yleista#full-stack-harjoitustyo), ja se on käynnissä [Herokussa](https://mokkikirja.herokuapp.com/).
 
 ## Dokumentaatio
 
@@ -10,11 +10,11 @@ Sovellus on Helsingin yliopiston [Full Stack open -kurssin](https://fullstackope
 
 [Kehitystyön ohjeet](./docs/development.md)
 
-[Kehitys, kun sovellusta ajetaan Docker-konteissa](./docs/dev-docker.md)
+[Ohjeet kehitystyöhön, kun sovellusta ajetaan Docker-konteissa](./docs/dev-docker.md)
 
 [Sovelluksen käyttöohjeet](./docs/application.md)
 
-### Projektin dokumentaatio
+### Harjoitustyön dokumentaatio
 
 [Vaatimusmäärittely](https://docs.google.com/document/d/1LERzhYkgwXRD9UR3Aaa66_b-9gfKJ6ovxYIAVyZMgkY/edit?usp=sharing)
 
